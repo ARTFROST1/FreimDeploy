@@ -28,12 +28,18 @@ NODE_MAJOR=22
 CADDYFILE="/etc/caddy/Caddyfile"
 
 # ─── 0. Token ────────────────────────────────────────────────────────────────
-# FD_DIST_TOKEN: read-only fine-grained PAT for the dist repo. Comes from the
-# environment on first install (curl … | sudo -E bash), from .env afterwards.
+# FD_DIST_TOKEN: optional read-only fine-grained PAT for the dist repo. Only
+# needed when the dist repo is private (e.g. a studio's internal server).
+# Comes from the environment on first install (curl … | sudo -E bash), from
+# .env afterwards. Public repo (default) installs work with no token at all.
 if [[ -z "${FD_DIST_TOKEN:-}" && -f "${ENV_FILE}" ]]; then
   FD_DIST_TOKEN="$(grep -E '^FD_DIST_TOKEN=' "${ENV_FILE}" | cut -d= -f2- || true)"
 fi
-[[ -n "${FD_DIST_TOKEN:-}" ]] || log_err "FD_DIST_TOKEN is not set. Run: export FD_DIST_TOKEN=… ; curl … | sudo -E bash"
+if [[ -n "${FD_DIST_TOKEN:-}" ]]; then
+  log_info "FD_DIST_TOKEN обнаружен — запросы к dist-репозиторию будут авторизованы"
+else
+  log_info "Публичный режим: без токена дистрибуции"
+fi
 
 # jq — для разбора ответов Releases API
 if ! command -v jq >/dev/null 2>&1; then
@@ -170,10 +176,15 @@ else
 fi
 
 # ─── 7. Download latest release (заменяет git clone) ────────────────────────
-gh_api() { curl -fsSL -H "Authorization: Bearer ${FD_DIST_TOKEN}" \
+# AUTH is only populated when FD_DIST_TOKEN is set; against a public dist repo
+# it stays empty and curl is called with no Authorization header at all.
+AUTH=()
+[[ -n "${FD_DIST_TOKEN:-}" ]] && AUTH=(-H "Authorization: Bearer ${FD_DIST_TOKEN}")
+
+gh_api() { curl -fsSL "${AUTH[@]}" \
   -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${DIST_REPO}$1"; }
 
-LATEST_JSON="$(gh_api /releases/latest)" || log_err "Cannot reach ${DIST_REPO} releases (token? network?)"
+LATEST_JSON="$(gh_api /releases/latest)" || log_err "Cannot reach ${DIST_REPO} releases (network? private repo needs FD_DIST_TOKEN?)"
 TAG="$(echo "${LATEST_JSON}" | jq -r .tag_name)"
 VERSION="${TAG#v}"
 # Tag-derived; goes into filesystem paths (incl. rm -rf) — refuse anything
@@ -188,7 +199,7 @@ if [[ -d "${RELEASES_DIR}/${VERSION}" ]]; then
 else
   log_info "Downloading FrostDeploy ${VERSION}..."
   TMP_TGZ="$(mktemp)"
-  curl -fsSL -H "Authorization: Bearer ${FD_DIST_TOKEN}" -H "Accept: application/octet-stream" \
+  curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
     -o "${TMP_TGZ}" "https://api.github.com/repos/${DIST_REPO}/releases/assets/${ASSET_ID}"
   mkdir -p "${RELEASES_DIR}"
   tar -xzf "${TMP_TGZ}" -C "${RELEASES_DIR}"
@@ -208,7 +219,9 @@ chown -R "${FD_USER}:${FD_USER}" "${DATA_DIR}"
 
 if [[ -f "${ENV_FILE}" ]]; then
   log_ok ".env exists — preserving"
-  grep -q '^FD_DIST_TOKEN=' "${ENV_FILE}" || echo "FD_DIST_TOKEN=${FD_DIST_TOKEN}" >> "${ENV_FILE}"
+  if [[ -n "${FD_DIST_TOKEN:-}" ]]; then
+    grep -q '^FD_DIST_TOKEN=' "${ENV_FILE}" || echo "FD_DIST_TOKEN=${FD_DIST_TOKEN}" >> "${ENV_FILE}"
+  fi
 else
   ENCRYPTION_KEY=$(openssl rand -hex 32)
   SESSION_SECRET=$(openssl rand -hex 32)
@@ -220,8 +233,10 @@ BACKUP_DIR=${BACKUP_DIR}
 FD_GUEST_BUILD_DIR=${GUEST_BUILD_DIR}
 ENCRYPTION_KEY=${ENCRYPTION_KEY}
 SESSION_SECRET=${SESSION_SECRET}
-FD_DIST_TOKEN=${FD_DIST_TOKEN}
 EOF
+  if [[ -n "${FD_DIST_TOKEN:-}" ]]; then
+    echo "FD_DIST_TOKEN=${FD_DIST_TOKEN}" >> "${ENV_FILE}"
+  fi
   chmod 600 "${ENV_FILE}"
   log_ok ".env created"
 fi
