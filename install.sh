@@ -214,7 +214,10 @@ log_ok "current → ${VERSION}"
 
 # ─── 9. Data dirs & .env (как раньше, плюс FD_DIST_TOKEN) ───────────────────
 GUEST_BUILD_DIR="${DATA_DIR}/guest-builds"
-mkdir -p "${DATA_DIR}" "${BACKUP_DIR}" "${GUEST_BUILD_DIR}"
+# 750, not the umask default 755: data.db holds ssh_keys, env_variables and
+# sessions (audit H-1 — a session token needs no decryption to be replayed).
+install -d -m 750 "${DATA_DIR}"
+install -d -m 750 "${BACKUP_DIR}" "${GUEST_BUILD_DIR}"
 chown -R "${FD_USER}:${FD_USER}" "${DATA_DIR}"
 
 if [[ -f "${ENV_FILE}" ]]; then
@@ -222,15 +225,35 @@ if [[ -f "${ENV_FILE}" ]]; then
   if [[ -n "${FD_DIST_TOKEN:-}" ]]; then
     grep -q '^FD_DIST_TOKEN=' "${ENV_FILE}" || echo "FD_DIST_TOKEN=${FD_DIST_TOKEN}" >> "${ENV_FILE}"
   fi
+  # The panel now trusts X-Forwarded-For ONLY from an explicit
+  # PANEL_TRUSTED_PROXIES list (the default set is empty). Without this line an
+  # upgraded install would key every per-IP rate limit on 127.0.0.1 — i.e. one
+  # shared bucket for the whole internet, since Caddy is the only client.
+  if ! grep -q '^PANEL_TRUSTED_PROXIES=' "${ENV_FILE}"; then
+    printf 'PANEL_TRUSTED_PROXIES=127.0.0.1\n' >> "${ENV_FILE}"
+    log_ok "PANEL_TRUSTED_PROXIES=127.0.0.1 добавлен в .env (per-IP лимиты за Caddy)"
+  fi
 else
   ENCRYPTION_KEY=$(openssl rand -hex 32)
   SESSION_SECRET=$(openssl rand -hex 32)
+  # Create the file 600 BEFORE writing anything into it. `cat > file` followed by
+  # `chmod 600` leaves a window in which the file exists at the default umask
+  # (0644) with ENCRYPTION_KEY already inside — and that key decrypts every SSH
+  # key in the DB. install(1) creates with the mode, so there is no window.
+  install -m 600 -o root -g root /dev/null "${ENV_FILE}"
   cat > "${ENV_FILE}" <<EOF
 NODE_ENV=production
 PORT=${FD_PORT}
+# The panel binds 127.0.0.1 by default (server/src/index.ts). It is reached
+# through Caddy over HTTPS, never directly — audit C-2: :9000 open to the
+# internet served the login form in cleartext.
 DATABASE_PATH=${DATA_DIR}/data.db
 BACKUP_DIR=${BACKUP_DIR}
 FD_GUEST_BUILD_DIR=${GUEST_BUILD_DIR}
+# Only this proxy's X-Forwarded-For is believed. The default trusted set is
+# EMPTY, so without this line the header is ignored and every per-IP limit
+# (login backoff included) collapses onto the loopback address.
+PANEL_TRUSTED_PROXIES=127.0.0.1
 ENCRYPTION_KEY=${ENCRYPTION_KEY}
 SESSION_SECRET=${SESSION_SECRET}
 EOF
@@ -242,9 +265,12 @@ EOF
 fi
 chown -R "${FD_USER}:${FD_USER}" "${INSTALL_DIR}"
 
-# ─── 9b. prepare-host из релиза ─────────────────────────────────────────────
+# ─── 9b. prepare-host из релиза (+ базовая линия безопасности) ──────────────
+# prepare-host.sh теперь ещё и применяет harden-host.sh: до этого релиза
+# control-plane — машина, где лежит ENCRYPTION_KEY и SSH-ключи ко всем
+# управляемым серверам — не получала из базовой линии НИЧЕГО (аудит §4).
 bash "${INSTALL_DIR}/current/scripts/prepare-host.sh"
-log_ok "Host prepared as a deploy target (/srv/frostdeploy + sudoers)"
+log_ok "Host prepared (/srv/frostdeploy + sudoers + security baseline)"
 
 # ─── 10. Units & CLI из релиза ──────────────────────────────────────────────
 install -m 644 "${INSTALL_DIR}/current/scripts/frostdeploy.service" \
@@ -274,12 +300,23 @@ EOF
   log_ok "Caddy runs with --resume (config managed by the panel via admin API)"
 fi
 
-# ─── 11c. Open the panel port in ufw (only if ufw is already active) ────────
-# Non-destructive: ADDS one allow rule, never enables ufw and never closes
-# anything. On a server with ufw active the panel port would otherwise be
-# unreachable from the browser during setup.
-if command -v ufw &> /dev/null && ufw status 2>/dev/null | grep -q "Status: active"; then
-  ufw allow "${FD_PORT}/tcp" > /dev/null 2>&1 && log_ok "ufw: разрешён порт ${FD_PORT}/tcp (панель)"
+# ─── 11c. The panel port is NEVER opened in the firewall ────────────────────
+# There used to be an `ufw allow ${FD_PORT}/tcp` here "so the browser can reach
+# the panel during setup". That is exactly what put the admin panel on the open
+# internet in cleartext HTTP (audit C-2): 51 964 brute-force attempts landed on
+# it, and because the login rate limiter trusted X-Forwarded-For from anyone, a
+# direct request to :9000 could set that header itself and reset the limit.
+#
+# The panel binds 127.0.0.1 and is reached over HTTPS through Caddy. Before a
+# domain is configured, use an SSH tunnel from your own machine:
+#
+#   ssh -L 9000:127.0.0.1:9000 root@<server>   →  http://127.0.0.1:9000
+#
+# Do not "just open the port to have a quick look".
+if command -v ufw &> /dev/null && ufw status 2>/dev/null | grep -q "${FD_PORT}"; then
+  ufw delete allow "${FD_PORT}/tcp" > /dev/null 2>&1 \
+    && log_ok "ufw: закрыт унаследованный allow ${FD_PORT}/tcp (панель не смотрит в интернет)" \
+    || true
 fi
 
 # ─── 12. Start FrostDeploy ──────────────────────────────────────────────────
@@ -295,23 +332,33 @@ else
 fi
 
 # ─── 13. Final output ───────────────────────────────────────────────────────
+# NB: no `http://<ip>:9000` here. The panel binds loopback and that URL was never
+# reachable from a browser without opening the port — the exact hole audit C-2 is
+# about. Advertise the HTTPS domain and the tunnel, nothing else.
 SERVER_IP=$(hostname -I | awk '{print $1}')
 
 echo ""
-echo -e "${BOLD}╔══════════════════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}║           FrostDeploy is ready! 🚀                  ║${NC}"
-echo -e "${BOLD}╠══════════════════════════════════════════════════════╣${NC}"
-echo -e "${BOLD}║${NC}                                                      ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}  URL:    ${CYAN}http://${SERVER_IP}:${FD_PORT}${NC}                  ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}                                                      ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}  Open this URL in your browser to start the          ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}  Setup Wizard and create your admin account.         ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}                                                      ${BOLD}║${NC}"
-echo -e "${BOLD}╠══════════════════════════════════════════════════════╣${NC}"
-echo -e "${BOLD}║${NC}  Useful commands:                                    ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}    systemctl status ${SERVICE_NAME}               ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}    journalctl -u ${SERVICE_NAME} -f              ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}    systemctl restart ${SERVICE_NAME}              ${BOLD}║${NC}"
-echo -e "${BOLD}║${NC}    frostdeploy update | rollback                     ${BOLD}║${NC}"
-echo -e "${BOLD}╚══════════════════════════════════════════════════════╝${NC}"
+echo -e "${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${BOLD}║             FrostDeploy is ready! 🚀                         ║${NC}"
+echo -e "${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+echo -e " ${BOLD}Панель слушает 127.0.0.1:${FD_PORT} и в интернет НЕ смотрит.${NC}"
+echo ""
+echo -e " ${BOLD}1) Первый вход — через SSH-туннель со своей машины:${NC}"
+echo -e "      ${CYAN}ssh -L ${FD_PORT}:127.0.0.1:${FD_PORT} root@${SERVER_IP}${NC}"
+echo -e "    затем открой в браузере: ${CYAN}http://127.0.0.1:${FD_PORT}${NC}"
+echo -e "    Пройди Setup Wizard и создай админский аккаунт."
+echo ""
+echo -e " ${BOLD}2) Дальше — только по своему домену через HTTPS:${NC}"
+echo -e "    в панели укажи домен (Settings → Domain), Caddy сам возьмёт"
+echo -e "    сертификат, и панель будет доступна как ${CYAN}https://<твой-домен>${NC}"
+echo ""
+echo -e " ${YELLOW}Порт ${FD_PORT} открывать в файрволе НЕ надо и НЕ нужно никогда.${NC}"
+echo ""
+echo -e " ${BOLD}Полезные команды:${NC}"
+echo "    systemctl status ${SERVICE_NAME}"
+echo "    journalctl -u ${SERVICE_NAME} -f"
+echo "    systemctl restart ${SERVICE_NAME}"
+echo "    frostdeploy update | rollback"
+echo "    bash ${INSTALL_DIR}/current/scripts/harden-host.sh --dry-run   # аудит базовой линии"
 echo ""
