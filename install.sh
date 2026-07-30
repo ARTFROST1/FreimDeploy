@@ -194,17 +194,63 @@ VERSION="${TAG#v}"
 ASSET_ID="$(echo "${LATEST_JSON}" | jq -r '.assets[] | select(.name|endswith("linux-x64.tar.gz")) | .id')"
 [[ -n "${ASSET_ID}" && "${ASSET_ID}" != "null" ]] || log_err "Release ${TAG} has no linux-x64 tarball"
 
+# ─── Подпись релиза (аудит C-5) ─────────────────────────────────────────────
+# Тарбол распаковывается КАК ROOT. Без проверки подписи тот, кто может записать
+# один release-asset, получает root на каждом сервере при следующем
+# install/update — и молча, потому что подменённый архив ничем не отличался от
+# настоящего.
+#
+# Публичный ключ. Не секрет: он существует, чтобы отличить наш артефакт от
+# чужого. Приватная половина живёт только в секретах CI (FD_SIGNING_KEY) и
+# отделена от DIST_PUSH_TOKEN — утёкший push-токен сам по себе больше не даёт
+# отравить серверы, валидную подпись им не сделать.
+#
+# KEEP IN SYNC: тот же ключ и та же функция продублированы в
+# scripts/dist/frostdeploy (путь `frostdeploy update`). Оба скрипта
+# распространяются отдельно, общий файл им подключить неоткуда.
+read -r -d '' FD_RELEASE_PUBKEY <<'PUBKEY' || true
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAH7ZmEJxyrsoTPoWG+4wLKkf6nwGiwoZWomiJcdY6jOo=
+-----END PUBLIC KEY-----
+PUBKEY
+
+# verify_release <tarball> <sig> — падает, если подпись не сходится.
+verify_release() {
+  local tgz="$1" sig="$2" pub
+  command -v openssl >/dev/null 2>&1 || log_err "openssl не найден — проверить подпись релиза нечем"
+  [[ -s "${sig}" ]] || log_err "у релиза нет файла подписи (.sig) — установка ОСТАНОВЛЕНА"
+  pub="$(mktemp)"
+  printf '%s\n' "${FD_RELEASE_PUBKEY}" > "${pub}"
+  if ! openssl pkeyutl -verify -rawin -pubin -inkey "${pub}" -sigfile "${sig}" -in "${tgz}" >/dev/null 2>&1; then
+    rm -f "${pub}"
+    log_err "ПОДПИСЬ РЕЛИЗА НЕ СХОДИТСЯ. Архив подменён или собран не нами — установка ОСТАНОВЛЕНА."
+  fi
+  rm -f "${pub}"
+  log_ok "подпись релиза проверена (ed25519)"
+}
+
 if [[ -d "${RELEASES_DIR}/${VERSION}" ]]; then
   log_ok "Release ${VERSION} already present"
 else
   log_info "Downloading FrostDeploy ${VERSION}..."
   TMP_TGZ="$(mktemp)"
+  TMP_SIG="$(mktemp)"
   curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
     -o "${TMP_TGZ}" "https://api.github.com/repos/${DIST_REPO}/releases/assets/${ASSET_ID}"
+  SIG_ID="$(echo "${LATEST_JSON}" | jq -r '.assets[] | select(.name|endswith(".tar.gz.sig")) | .id')"
+  if [[ -n "${SIG_ID}" && "${SIG_ID}" != "null" ]]; then
+    curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
+      -o "${TMP_SIG}" "https://api.github.com/repos/${DIST_REPO}/releases/assets/${SIG_ID}"
+  fi
+  # ПРОВЕРКА ДО РАСПАКОВКИ: после tar злоумышленный код уже на диске, а
+  # prepare-host.sh запускается из этого самого дерева от root.
+  verify_release "${TMP_TGZ}" "${TMP_SIG}"
   mkdir -p "${RELEASES_DIR}"
-  tar -xzf "${TMP_TGZ}" -C "${RELEASES_DIR}"
+  # --no-same-owner/--no-same-permissions: архив не должен диктовать, кому будут
+  # принадлежать файлы и с какими правами (setuid в том числе).
+  tar -xzf "${TMP_TGZ}" --no-same-owner --no-same-permissions -C "${RELEASES_DIR}"
   mv "${RELEASES_DIR}/frostdeploy-${VERSION}" "${RELEASES_DIR}/${VERSION}"
-  rm -f "${TMP_TGZ}"
+  rm -f "${TMP_TGZ}" "${TMP_SIG}"
   log_ok "Release ${VERSION} unpacked"
 fi
 ln -sfn "${RELEASES_DIR}/${VERSION}" "${INSTALL_DIR}/current"
@@ -289,11 +335,24 @@ if [[ "${FOREIGN_CADDY}" == "true" ]]; then
   log_warn "Пропускаю настройку Caddy (обслуживает чужие сайты). Панель — на :${FD_PORT}."
 else
   mkdir -p /var/lib/caddy /var/log/caddy /etc/systemd/system/caddy.service.d
+  # Без --environ: он сбрасывает всё окружение процесса в журнал при старте.
+  # RuntimeDirectory=caddy создаёт /run/caddy под admin-сокет.
+  # Канонической версией этого файла владеет harden-host.sh и обновляет её на
+  # каждом апдейте; здесь достаточно, чтобы ПЕРВАЯ установка была корректной.
   cat > /etc/systemd/system/caddy.service.d/override.conf <<'EOF'
 [Service]
 ExecStart=
-ExecStart=/usr/bin/caddy run --environ --resume
+ExecStart=/usr/bin/caddy run --resume
+RuntimeDirectory=caddy
+RuntimeDirectoryMode=0755
+ExecReload=
+ExecReload=/bin/sh -c 'if [ -S /run/caddy/admin.sock ]; then A="--unix-socket /run/caddy/admin.sock http://localhost"; else A="http://localhost:2019"; fi; curl -sf $A/config/ | curl -sf -X POST -H "Content-Type: application/json" -H "Cache-Control: must-revalidate" --data-binary @- $A/load'
 EOF
+  # Панель ходит в admin API Caddy через unix-сокет 0660, владелец группы caddy.
+  # Без этого членства панель не сможет настраивать Caddy вообще.
+  if getent group caddy >/dev/null 2>&1; then
+    usermod -aG caddy "${FD_USER}"
+  fi
   systemctl daemon-reload
   systemctl enable caddy --quiet 2>/dev/null || true
   systemctl restart caddy
