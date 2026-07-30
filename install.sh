@@ -41,15 +41,26 @@ else
   log_info "Публичный режим: без токена дистрибуции"
 fi
 
-# jq — для разбора ответов Releases API
+# jq — для разбора ответов Releases API.
+#
+# `apt-get update` ОБЯЗАТЕЛЕН перед первой установкой. На свежем образе
+# /var/lib/apt/lists пуст, и apt не знает ни одного пакета: установщик падал на
+# самой первой команде с `E: Unable to locate package jq`. Воспроизведено на
+# чистом Debian 12 — то есть на всём, с чего начинает любой новый пользователь.
+#
+# Ошибка apt показывается целиком. Прежний текст («are you root? is apt
+# reachable?») назвал две причины, и обе были неверны: скрипт шёл от root, apt
+# был доступен. Догадка вместо диагностики хуже, чем отсутствие диагностики, —
+# она уводит от настоящей причины.
 if ! command -v jq >/dev/null 2>&1; then
-  # Exit status is checked explicitly (unlike a bare `cmd >/dev/null 2>&1;
-  # log_ok`) so a non-root run or offline apt fails loudly here instead of
-  # limping on to a `jq: command not found` deep inside section 7.
-  if apt-get install -y -qq jq >/dev/null 2>&1; then
+  log_info "Обновляю списки пакетов apt..."
+  if ! APT_OUT="$(apt-get update -qq 2>&1)"; then
+    log_err "apt-get update не прошёл:\n${APT_OUT}"
+  fi
+  if APT_OUT="$(apt-get install -y -qq jq 2>&1)"; then
     log_ok "jq installed"
   else
-    log_err "Failed to install jq (are you root? is apt reachable?)"
+    log_err "Не удалось установить jq:\n${APT_OUT}"
   fi
 fi
 
