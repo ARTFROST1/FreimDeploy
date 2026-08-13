@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="FrostDeploy">
+  <defs>
+    <linearGradient id="ice" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7dd3fc"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(128 128)" stroke="url(#ice)" stroke-width="14" stroke-linecap="round" fill="none">
+    <path d="M0 -96 V96"/>
+    <path d="M-83 -48 L83 48"/>
+    <path d="M-83 48 L83 -48"/>
+    <path d="M0 -96 L-26 -66 M0 -96 L26 -66"/>
+    <path d="M0 96 L-26 66 M0 96 L26 66"/>
+    <path d="M-83 -48 L-81 -15 M-83 -48 L-50 -52"/>
+    <path d="M83 48 L81 15 M83 48 L50 52"/>
+    <path d="M-83 48 L-81 15 M-83 48 L-50 52"/>
+    <path d="M83 -48 L81 -15 M83 -48 L50 -52"/>
+  </g>
+  <circle cx="128" cy="128" r="17" fill="#e0f2fe"/>
+</svg>
