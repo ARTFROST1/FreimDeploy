@@ -185,7 +185,7 @@ A deploy is a fixed pipeline, and every step is streamed to the dashboard live:
 flowchart LR
     A["git clone"] --> B["install deps<br/>(cached between releases)"]
     B --> C["build"]
-    C --> D["publish release<br/>/srv/&lt;site&gt;/releases/&lt;ts&gt;"]
+    C --> D["publish release<br/>/srv/{site}/releases/{timestamp}"]
     D --> E["systemd restart"]
     E --> F{"healthcheck"}
     F -->|pass| G["current → new release"]

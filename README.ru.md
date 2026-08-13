@@ -189,7 +189,7 @@ flowchart LR
 flowchart LR
     A["git clone"] --> B["установка зависимостей<br/>(кэш между релизами)"]
     B --> C["сборка"]
-    C --> D["публикация релиза<br/>/srv/&lt;сайт&gt;/releases/&lt;ts&gt;"]
+    C --> D["публикация релиза<br/>/srv/{сайт}/releases/{timestamp}"]
     D --> E["перезапуск systemd"]
     E --> F{"healthcheck"}
     F -->|ок| G["current → новый релиз"]
