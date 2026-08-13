@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="250" viewBox="0 0 1000 250" role="img" aria-label="FrostDeploy — self-hosted deploy platform">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0f1e"/>
+      <stop offset="55%" stop-color="#0d1b33"/>
+      <stop offset="100%" stop-color="#102a45"/>
+    </linearGradient>
+    <linearGradient id="ice" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7dd3fc"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="250" rx="18" fill="url(#bg)"/>
+  <rect x="0.75" y="0.75" width="998.5" height="248.5" rx="18" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+
+  <g stroke="#1b3454" stroke-width="1" opacity="0.55">
+    <path d="M0 62 H1000"/>
+    <path d="M0 125 H1000"/>
+    <path d="M0 188 H1000"/>
+    <path d="M150 0 V250"/>
+    <path d="M300 0 V250"/>
+    <path d="M450 0 V250"/>
+    <path d="M600 0 V250"/>
+    <path d="M750 0 V250"/>
+  </g>
+
+  <ellipse cx="122" cy="125" rx="170" ry="125" fill="url(#glow)" opacity="0.8"/>
+
+  <g transform="translate(122 120)" stroke="url(#ice)" stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M0 -52 V52"/>
+    <path d="M-45 -26 L45 26"/>
+    <path d="M-45 26 L45 -26"/>
+    <path d="M0 -52 L-14 -36 M0 -52 L14 -36"/>
+    <path d="M0 52 L-14 36 M0 52 L14 36"/>
+    <path d="M-45 -26 L-44 -8 M-45 -26 L-27 -28"/>
+    <path d="M45 26 L44 8 M45 26 L27 28"/>
+    <path d="M-45 26 L-27 -28" opacity="0"/>
+    <path d="M-45 26 L-44 8 M-45 26 L-27 28"/>
+    <path d="M45 -26 L44 -8 M45 -26 L27 -28"/>
+  </g>
+  <circle cx="122" cy="120" r="9" fill="#e0f2fe"/>
+
+  <text x="250" y="110" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="58" font-weight="700" fill="#f8fafc" letter-spacing="-1">Frost<tspan fill="url(#ice)">Deploy</tspan></text>
+
+  <text x="252" y="147" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="19" font-weight="500" fill="#94a3b8">Self-hosted deploy platform for your own VDS. No Docker.</text>
+
+  <rect x="250" y="172" width="620" height="44" rx="10" fill="#0b1424" stroke="#1e3a5f" stroke-width="1.2"/>
+  <text x="270" y="200" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15" fill="#7dd3fc">$ curl -fsSL .../install.sh | sudo bash</text>
+  <circle cx="846" cy="194" r="4.5" fill="#4ade80"/>
+</svg>

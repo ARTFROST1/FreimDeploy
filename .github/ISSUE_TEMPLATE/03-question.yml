@@ -1,0 +1,25 @@
+name: "💬 Question"
+description: "Something about installing, operating or licensing FrostDeploy"
+title: "[question] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the [README](https://github.com/ARTFROST1/FrostDeploy#readme) first — quick start,
+        CLI reference, troubleshooting and FAQ live there.
+
+        Можно писать по-русски.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: "Version, OS, what you are trying to achieve — whatever is relevant"

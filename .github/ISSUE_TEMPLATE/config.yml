@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔐 Security vulnerability
+    url: https://github.com/ARTFROST1/FrostDeploy/security/advisories/new
+    about: "Report privately as a security advisory — never as a public issue. The release tarball is unpacked as root on every server."
+  - name: 📦 Releases and changelog
+    url: https://github.com/ARTFROST1/FrostDeploy/releases
+    about: "Signed builds, one per release, with .sig and .sha256 assets."
+  - name: 📖 Quick start, CLI and troubleshooting
+    url: https://github.com/ARTFROST1/FrostDeploy#readme
+    about: "Most installation questions are answered in the README."

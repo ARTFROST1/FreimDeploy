@@ -1,0 +1,49 @@
+FrostDeploy — Proprietary License
+Copyright (c) 2026 ARTFROST1. All rights reserved.
+
+FrostDeploy is proprietary software. It is not open source, and no rights are
+granted except the ones stated below.
+
+1. THIS REPOSITORY
+   This repository is a distribution channel. It contains the installer script
+   (`install.sh`), documentation, and compiled release artifacts published under
+   GitHub Releases. The source code of FrostDeploy is not distributed here or
+   anywhere else, and is not covered by any grant in this file.
+
+2. WHAT YOU MAY DO
+   a. Read, review and audit `install.sh` and the documentation in this
+      repository. They are public precisely so that they can be inspected before
+      being executed as root.
+   b. Download release artifacts and install, run and update FrostDeploy on
+      servers you own or operate, provided you are an authorized recipient — the
+      copyright holder or a person or organization to whom the copyright holder
+      has granted a license.
+   c. Verify the integrity and signature of the release artifacts.
+
+3. WHAT YOU MAY NOT DO
+   Without prior written permission from the copyright holder, you may not:
+   a. redistribute, resell, sublicense, rent, host as a service, or otherwise
+      make available the release artifacts or any part of them to third parties;
+   b. reverse engineer, decompile or disassemble the release artifacts, or
+      attempt to reconstruct the source code, except to the extent such
+      restriction is prohibited by applicable law;
+   c. modify the release artifacts and distribute the result;
+   d. remove or alter copyright notices, signatures, or license text;
+   e. use the FrostDeploy name or marks to endorse or promote derived offerings.
+
+4. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+   IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+5. THIRD-PARTY COMPONENTS
+   Release artifacts bundle third-party open-source components, each of which
+   remains under its own license. Those licenses govern those components and are
+   unaffected by this file.
+
+6. CONTACT
+   For licensing, commercial use, or permission requests, open an issue at
+   https://github.com/ARTFROST1/FrostDeploy/issues

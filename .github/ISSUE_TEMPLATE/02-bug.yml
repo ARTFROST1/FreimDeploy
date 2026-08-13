@@ -1,0 +1,70 @@
+name: "🐛 Bug in a running install"
+description: "Deploy, domain, panel or portal misbehaves on an installed system"
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please redact secrets (`.env` contents, tokens, SSH keys) before pasting logs.
+
+        Можно писать по-русски.
+
+  - type: input
+    id: version
+    attributes:
+      label: FrostDeploy version
+      placeholder: "v0.2.0-rc.59"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where
+      options:
+        - Deploy pipeline (build / release / restart)
+        - Domains, HTTPS, Caddy
+        - Panel UI
+        - Servers & SSH
+        - Environment variables & secrets
+        - Backups
+        - Client CMS portal
+        - CLI (`frostdeploy ...`)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected vs what happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Project X, Astro, custom domain configured
+        2. Press Deploy
+        3. Build finishes, healthcheck fails
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: "Deploy log from the dashboard, `journalctl -u frostdeploy -n 100 --no-pager`, or `journalctl -u caddy -n 50 --no-pager`"
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: "I am on the latest release (`frostdeploy update`) or explained why not"
+        - label: "I redacted secrets from everything pasted above"
+          required: true

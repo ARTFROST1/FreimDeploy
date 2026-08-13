@@ -1,0 +1,71 @@
+name: "🧊 Installation problem"
+description: "install.sh failed, or the panel does not come up after installing"
+title: "[install] "
+labels: ["install"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please do **not** paste `/opt/frostdeploy/.env`, `ENCRYPTION_KEY`,
+        `SESSION_SECRET`, GitHub tokens or SSH keys — redact them first.
+
+        Можно писать по-русски.
+
+  - type: input
+    id: version
+    attributes:
+      label: FrostDeploy version
+      description: "Output of `frostdeploy status`, or the release tag you tried to install"
+      placeholder: "v0.2.0-rc.59"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Debian 12
+        - Debian 13
+        - Ubuntu 22.04
+        - Ubuntu 24.04
+        - Other (unsupported)
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: "What you ran and where it stopped"
+      placeholder: |
+        Ran `curl -fsSL .../install.sh | sudo bash` on a fresh Debian 12 VDS.
+        It stopped at "Downloading FrostDeploy ...".
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Installer output
+      description: "The last ~40 lines. Redact secrets."
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: journal
+    attributes:
+      label: Service log (if the service started at all)
+      description: "`journalctl -u frostdeploy -n 100 --no-pager`"
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: "Both DNS records exist, including the wildcard (`dig +short A anything.my-domain @1.1.1.1` returns the server IP)"
+        - label: "The server is x86_64 Debian 12+ / Ubuntu 22.04+"
+        - label: "I redacted secrets from everything pasted above"
+          required: true
