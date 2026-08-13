@@ -1,0 +1,32 @@
+# FrostDeploy
+
+> Self-hosted deploy platform for your own VPS/VDS — a Vercel, Netlify, Render and Heroku
+> alternative you fully own. Connect a Git repository, press Deploy: build, automatic HTTPS,
+> custom domains and one-click rollback. Runs on Debian 12+ / Ubuntu 22.04+ without Docker.
+
+Install (as root, on a fresh server):
+
+```
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+```
+
+Before installing, two DNS A records must point at the server IP: the apex (`@`) and a wildcard
+(`*`). The panel listens on 127.0.0.1:9000 and is reached over an SSH tunnel for the first login,
+then over HTTPS on the user's own domain.
+
+## Docs
+
+- [AGENTS.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/AGENTS.md): step-by-step install runbook written for AI agents — prerequisites, DNS, install, SSH tunnel, setup wizard, failure handling, safety rules
+- [README.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.md): overview, quick start, features, troubleshooting, FAQ
+- [README.ru.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.ru.md): the same in Russian
+- [install.sh](https://github.com/ARTFROST1/FrostDeploy/blob/main/install.sh): the installer itself
+- [Releases](https://github.com/ARTFROST1/FrostDeploy/releases): signed builds
+
+## Notes
+
+- Supported: Debian 12+, Ubuntu 22.04+, x86_64, 1 GB RAM minimum, root access.
+- Not supported: RHEL-family distributions, Alpine, Arch, arm64.
+- Deploys Next.js, Astro, Nuxt, SvelteKit, Remix, Python services and static sites; frameworks are
+  autodetected.
+- The application source code is private; this repository distributes the installer and signed
+  release builds.
