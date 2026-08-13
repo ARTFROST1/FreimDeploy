@@ -2,6 +2,13 @@
 
 <img src="assets/banner.svg" alt="FrostDeploy — self-hosted Vercel alternative" width="900">
 
+<p>
+  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-0ea5e9?style=for-the-badge"></a>
+  <a href="README.ru.md"><img alt="Русский" src="https://img.shields.io/badge/Русский-334155?style=for-the-badge"></a>
+  <a href="README.zh-CN.md"><img alt="简体中文" src="https://img.shields.io/badge/简体中文-334155?style=for-the-badge"></a>
+  <a href="README.es.md"><img alt="Español" src="https://img.shields.io/badge/Español-334155?style=for-the-badge"></a>
+</p>
+
 <h3>Your own Vercel, on your own server.</h3>
 
 <p><b>FrostDeploy is a self-hosted deploy platform for your VPS/VDS —<br>
@@ -344,7 +351,9 @@ application source code is not distributed.
 <div align="center">
 <br>
 
-**[⚡ Install now](#-install)** · [Releases](https://github.com/ARTFROST1/FrostDeploy/releases) · [Agent instructions](AGENTS.md) · [Ask a question](https://github.com/ARTFROST1/FrostDeploy/issues/new/choose) · [🇷🇺 Русская версия](README.ru.md)
+**[⚡ Install now](#-install)** · [Releases](https://github.com/ARTFROST1/FrostDeploy/releases) · [Agent instructions](AGENTS.md) · [Ask a question](https://github.com/ARTFROST1/FrostDeploy/issues/new/choose)
+
+[English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
 <sub><b>FrostDeploy</b> — self-hosted deploy platform and a Vercel, Netlify, Render and Heroku
 alternative for your own VPS. Deploy Next.js, Astro, Nuxt, SvelteKit, Remix and static sites to your

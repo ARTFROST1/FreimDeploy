@@ -19,6 +19,8 @@ then over HTTPS on the user's own domain.
 - [AGENTS.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/AGENTS.md): step-by-step install runbook written for AI agents — prerequisites, DNS, install, SSH tunnel, setup wizard, failure handling, safety rules
 - [README.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.md): overview, quick start, features, troubleshooting, FAQ
 - [README.ru.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.ru.md): the same in Russian
+- [README.zh-CN.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.zh-CN.md): the same in Simplified Chinese
+- [README.es.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.es.md): the same in Spanish
 - [install.sh](https://github.com/ARTFROST1/FrostDeploy/blob/main/install.sh): the installer itself
 - [Releases](https://github.com/ARTFROST1/FrostDeploy/releases): signed builds
 
