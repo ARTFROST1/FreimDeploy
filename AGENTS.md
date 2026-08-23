@@ -119,6 +119,12 @@ issuance takes up to a minute. Once it works, the tunnel can be closed.
    it to the user, and do not write it into any file, log, commit or chat transcript that persists.
 3. To deploy a site: open the panel → add a project → choose the repository → press Deploy.
 
+If the user asks you to prepare a repository for deployment, read
+[docs/frostdeploy-json.md](docs/frostdeploy-json.md) and write the config file from it — do not guess
+field names. The two rules that break most first deploys: a server-side app must listen on
+`process.env.PORT`, and a value needed during the build must carry a public prefix
+(see [docs/environment-variables.md](docs/environment-variables.md)).
+
 ---
 
 ## 7. If something fails

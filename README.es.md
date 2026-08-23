@@ -341,6 +341,23 @@ instalarse.
 
 ---
 
+## 📚 Documentación
+
+Todo lo necesario para usar FrostDeploy sin acceso a su código fuente está en
+**[docs/](docs/)** (en inglés):
+
+| Documento | De qué trata |
+| --- | --- |
+| [Primer sitio](docs/first-deploy.md) | De una instalación nueva al primer sitio en línea con HTTPS |
+| [**frostdeploy.json**](docs/frostdeploy-json.md) | La referencia de configuración: build, comando de arranque, salida estática, monorepos, workers de Python, varios servicios en un repositorio |
+| [Variables de entorno](docs/environment-variables.md) | Build frente a runtime, y por qué los secretos nunca llegan al build |
+| [Dominios y HTTPS](docs/domains.md) | Direcciones de plataforma, dominios propios, certificados, `www`, redirecciones |
+| [Añadir servidores](docs/servers.md) | Un panel, varios servidores, y qué hace el bootstrap |
+| [Operación diaria](docs/operations.md) | Actualizaciones, rollbacks, un sitio caído, copias de seguridad, secretos |
+| [Portal CMS para clientes](docs/cms-portal.md) | El portal opcional donde los clientes editan su contenido |
+
+---
+
 ## 🧱 Por dentro
 
 Para los curiosos: Node.js 22, SQLite, [Caddy](https://caddyserver.com) para el HTTPS automático y

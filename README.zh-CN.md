@@ -302,6 +302,22 @@ FrostDeploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 
 ---
 
+## 📚 文档
+
+在没有源代码的情况下运行 FrostDeploy 所需的一切，都在 **[docs/](docs/)**（英文）：
+
+| 文档 | 内容 |
+| --- | --- |
+| [第一个站点](docs/first-deploy.md) | 从全新安装到第一个站点上线并启用 HTTPS |
+| [**frostdeploy.json**](docs/frostdeploy-json.md) | 配置参考：构建、启动命令、静态产物、Monorepo、Python worker、一个仓库多个服务 |
+| [环境变量](docs/environment-variables.md) | 构建时与运行时的区别，以及为什么密钥不会进入构建 |
+| [域名与 HTTPS](docs/domains.md) | 平台地址、自定义域名、证书、`www`、重定向 |
+| [添加服务器](docs/servers.md) | 一个面板管理多台服务器，bootstrap 做了什么 |
+| [日常运维](docs/operations.md) | 更新、回滚、站点挂了怎么办、备份、密钥 |
+| [客户 CMS 门户](docs/cms-portal.md) | 可选门户，让客户自己编辑内容 |
+
+---
+
 ## 🧱 技术栈
 
 给好奇的人：Node.js 22、SQLite、[Caddy](https://caddyserver.com)（自动 HTTPS）、systemd（进程管理）。没有容器，没有编排系统，没有偷偷回传数据的后台守护进程 —— 所以它能在最便宜的 VPS 上安稳运行。

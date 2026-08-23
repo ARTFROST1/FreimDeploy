@@ -335,6 +335,23 @@ is private. Updates are signed and verified automatically before they are instal
 
 ---
 
+## 📚 Documentation
+
+Everything needed to run FrostDeploy without access to its source code lives in
+**[docs/](docs/)**:
+
+| Document | What is in it |
+| --- | --- |
+| [First site](docs/first-deploy.md) | From a fresh install to your first site live on HTTPS |
+| [**frostdeploy.json**](docs/frostdeploy-json.md) | The configuration reference: build, start command, static output, monorepos, python workers, several services in one repository |
+| [Environment variables](docs/environment-variables.md) | Build time versus runtime, and why secrets never reach the build |
+| [Domains and HTTPS](docs/domains.md) | Platform addresses, custom domains, certificates, `www`, redirects |
+| [Adding servers](docs/servers.md) | One panel, many servers, and what the bootstrap does |
+| [Operating your install](docs/operations.md) | Updates, rollbacks, a site that is down, backups, secrets |
+| [Client CMS portal](docs/cms-portal.md) | The optional portal where clients edit their own content |
+
+---
+
 ## 🧱 Under the hood
 
 For the curious: Node.js 22, SQLite, [Caddy](https://caddyserver.com) for automatic HTTPS, and

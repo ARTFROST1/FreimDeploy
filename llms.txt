@@ -21,6 +21,13 @@ then over HTTPS on the user's own domain.
 - [README.ru.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.ru.md): the same in Russian
 - [README.zh-CN.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.zh-CN.md): the same in Simplified Chinese
 - [README.es.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.es.md): the same in Spanish
+- [docs/frostdeploy-json.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/frostdeploy-json.md): the project configuration reference — kind, build, run, assets, rootDir, runtime/role, python workers, multiservice `services[]`, deploy pipeline, limits
+- [docs/first-deploy.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/first-deploy.md): from a fresh install to the first site live on HTTPS
+- [docs/environment-variables.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/environment-variables.md): build-time vs runtime variables, public prefixes, why secrets never reach the build
+- [docs/domains.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/domains.md): platform addresses, custom domains, wildcard DNS, certificates, www, redirects
+- [docs/servers.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/servers.md): adding more servers to one panel
+- [docs/operations.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/operations.md): updates, rollback, incident recovery, backups, secrets, uninstall
+- [docs/cms-portal.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/cms-portal.md): the optional client CMS portal and what a site must provide to work with it
 - [install.sh](https://github.com/ARTFROST1/FrostDeploy/blob/main/install.sh): the installer itself
 - [Releases](https://github.com/ARTFROST1/FrostDeploy/releases): signed builds
 
