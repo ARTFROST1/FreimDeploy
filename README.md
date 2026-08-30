@@ -42,6 +42,10 @@ One command on a fresh Debian 12+ / Ubuntu 22.04+ server, as `root`:
 curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
 ```
 
+<p align="center">
+  <img src="assets/screens/01-dashboard.jpg" alt="FrostDeploy panel — every site on one screen" width="900">
+</p>
+
 Then follow **[Quick start](#-quick-start)** — five steps, about ten minutes, from an empty server
 to your first site live on HTTPS.
 
@@ -165,6 +169,25 @@ press Deploy.
 > Save two things in your password manager: the admin password and the `ENCRYPTION_KEY` line from
 > `/opt/frostdeploy/.env`. That key protects everything stored in the panel — lose the server
 > together with the key and a backup will not help you.
+
+---
+
+## 👀 Look inside
+
+**A project page** — one screen for a site: its domain and certificate, its services, and the whole
+deploy history, failures included.
+
+<img src="assets/screens/02-project.jpg" alt="Project page: domains, services, deploy history" width="900">
+
+**A deploy in progress** — seven stages streamed live, every service of the repository built on its
+own, and a release that only goes live after the healthcheck passes.
+
+<img src="assets/screens/03-deploy.jpg" alt="Deploy pipeline with live stages" width="900">
+
+**The client CMS portal** — your client opens their own site, clicks a heading, edits it and presses
+Publish. The change is committed to Git and redeployed.
+
+<img src="assets/screens/04-portal.jpg" alt="Client CMS portal: click-to-edit on the live site" width="900">
 
 ---
 

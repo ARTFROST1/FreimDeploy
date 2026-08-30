@@ -42,6 +42,10 @@
 curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
 ```
 
+<p align="center">
+  <img src="assets/screens/01-dashboard.jpg" alt="FrostDeploy 面板 —— 所有站点在一个屏幕上" width="900">
+</p>
+
 然后按 **[快速开始](#-快速开始)** 走完五步 —— 大约十分钟，从一台空服务器到第一个站点上线并启用 HTTPS。
 
 ---
@@ -148,6 +152,22 @@ ssh -L 9000:127.0.0.1:9000 root@<服务器 IP>
 
 > [!WARNING]
 > 请把两样东西存进密码管理器：管理员密码，以及 `/opt/frostdeploy/.env` 里的 `ENCRYPTION_KEY`。这把密钥保护着面板中存储的一切 —— 如果服务器和密钥一起丢了，备份也救不回来。
+
+---
+
+## 👀 界面一览
+
+**项目页面** —— 一个站点一个屏幕：域名与证书、服务列表，以及完整的部署历史（包括失败的那次）。
+
+<img src="assets/screens/02-project.jpg" alt="项目页面：域名、服务、部署历史" width="900">
+
+**正在进行的部署** —— 七个阶段实时推送，仓库里的每个服务各自构建，只有健康检查通过后版本才会上线。
+
+<img src="assets/screens/03-deploy.jpg" alt="带实时阶段的部署流水线" width="900">
+
+**客户 CMS 门户** —— 客户打开自己的站点，点击标题直接编辑，然后点「发布」。改动会提交到 Git 并自动重新部署。
+
+<img src="assets/screens/04-portal.jpg" alt="客户 CMS 门户：在线站点上点击即可编辑" width="900">
 
 ---
 

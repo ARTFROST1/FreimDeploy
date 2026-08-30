@@ -42,6 +42,10 @@ Un solo comando en un servidor limpio con Debian 12+ / Ubuntu 22.04+, como `root
 curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
 ```
 
+<p align="center">
+  <img src="assets/screens/01-dashboard.jpg" alt="Panel de FrostDeploy — todos los sitios en una pantalla" width="900">
+</p>
+
 Después sigue la **[Guía rápida](#-guía-rápida)**: cinco pasos, unos diez minutos, desde un servidor
 vacío hasta tu primer sitio en línea con HTTPS.
 
@@ -169,6 +173,25 @@ repositorio y pulsar Deploy.
 > Guarda dos cosas en tu gestor de contraseñas: la contraseña de administrador y la línea
 > `ENCRYPTION_KEY` de `/opt/frostdeploy/.env`. Esa clave protege todo lo que el panel almacena: si
 > pierdes el servidor junto con la clave, una copia de seguridad no te servirá de nada.
+
+---
+
+## 👀 Por dentro
+
+**La página de un proyecto** — una pantalla por sitio: su dominio y su certificado, sus servicios y
+todo el historial de despliegues, fallos incluidos.
+
+<img src="assets/screens/02-project.jpg" alt="Página de proyecto: dominios, servicios, historial" width="900">
+
+**Un despliegue en curso** — siete etapas en vivo, cada servicio del repositorio construido por
+separado, y una versión que solo entra en producción si pasa la comprobación.
+
+<img src="assets/screens/03-deploy.jpg" alt="Pipeline de despliegue con etapas en vivo" width="900">
+
+**El portal CMS del cliente** — el cliente abre su propio sitio, hace clic en un titular, lo edita y
+pulsa Publicar. El cambio se commitea a Git y se vuelve a desplegar.
+
+<img src="assets/screens/04-portal.jpg" alt="Portal CMS: editar haciendo clic en el sitio en vivo" width="900">
 
 ---
 
