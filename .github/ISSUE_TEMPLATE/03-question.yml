@@ -1,12 +1,12 @@
 name: "💬 Question"
-description: "Something about installing, operating or licensing FrostDeploy"
+description: "Something about installing, operating or licensing Freim Deploy"
 title: "[question] "
 labels: ["question"]
 body:
   - type: markdown
     attributes:
       value: |
-        Check the [README](https://github.com/ARTFROST1/FrostDeploy#readme) first — quick start,
+        Check the [README](https://github.com/ARTFROST1/FreimDeploy#readme) first — quick start,
         CLI reference, troubleshooting and FAQ live there.
 
         Можно писать по-русски.

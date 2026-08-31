@@ -1,4 +1,12 @@
-# FrostDeploy
+# Freim Deploy
+
+> Renamed: the product used to be called FrostDeploy. Same product, same
+> repository (github.com/ARTFROST1/FreimDeploy), same installer. The on-disk names were
+> deliberately NOT renamed and never will be: the install paths `/opt/frostdeploy` and
+> `/srv/frostdeploy`, the CLI command `frostdeploy`, the systemd unit `frostdeploy.service`,
+> the panel subdomain `frostdeploy.<domain>` and — most importantly — the per-repository
+> config file `frostdeploy.json` all keep their old names so existing installs keep working.
+> Never write `freimdeploy.json`; the file is and stays `frostdeploy.json`.
 
 > Self-hosted deploy platform for your own VPS/VDS — a Vercel, Netlify, Render and Heroku
 > alternative you fully own. Connect a Git repository, press Deploy: build, automatic HTTPS,
@@ -7,7 +15,7 @@
 Install (as root, on a fresh server):
 
 ```
-curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash
 ```
 
 Before installing, two DNS A records must point at the server IP: the apex (`@`) and a wildcard
@@ -16,20 +24,20 @@ then over HTTPS on the user's own domain.
 
 ## Docs
 
-- [AGENTS.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/AGENTS.md): step-by-step install runbook written for AI agents — prerequisites, DNS, install, SSH tunnel, setup wizard, failure handling, safety rules
-- [README.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.md): overview, quick start, features, troubleshooting, FAQ
-- [README.ru.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.ru.md): the same in Russian
-- [README.zh-CN.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.zh-CN.md): the same in Simplified Chinese
-- [README.es.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/README.es.md): the same in Spanish
-- [docs/frostdeploy-json.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/frostdeploy-json.md): the project configuration reference — kind, build, run, assets, rootDir, runtime/role, python workers, multiservice `services[]`, deploy pipeline, limits
-- [docs/first-deploy.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/first-deploy.md): from a fresh install to the first site live on HTTPS
-- [docs/environment-variables.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/environment-variables.md): build-time vs runtime variables, public prefixes, why secrets never reach the build
-- [docs/domains.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/domains.md): platform addresses, custom domains, wildcard DNS, certificates, www, redirects
-- [docs/servers.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/servers.md): adding more servers to one panel
-- [docs/operations.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/operations.md): updates, rollback, incident recovery, backups, secrets, uninstall
-- [docs/cms-portal.md](https://github.com/ARTFROST1/FrostDeploy/blob/main/docs/cms-portal.md): the optional client CMS portal and what a site must provide to work with it
-- [install.sh](https://github.com/ARTFROST1/FrostDeploy/blob/main/install.sh): the installer itself
-- [Releases](https://github.com/ARTFROST1/FrostDeploy/releases): signed builds
+- [AGENTS.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/AGENTS.md): step-by-step install runbook written for AI agents — prerequisites, DNS, install, SSH tunnel, setup wizard, failure handling, safety rules
+- [README.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/README.md): overview, quick start, features, troubleshooting, FAQ
+- [README.ru.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/README.ru.md): the same in Russian
+- [README.zh-CN.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/README.zh-CN.md): the same in Simplified Chinese
+- [README.es.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/README.es.md): the same in Spanish
+- [docs/frostdeploy-json.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/docs/frostdeploy-json.md): the project configuration reference — kind, build, run, assets, rootDir, runtime/role, python workers, multiservice `services[]`, deploy pipeline, limits
+- [docs/first-deploy.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/docs/first-deploy.md): from a fresh install to the first site live on HTTPS
+- [docs/environment-variables.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/docs/environment-variables.md): build-time vs runtime variables, public prefixes, why secrets never reach the build
+- [docs/domains.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/docs/domains.md): platform addresses, custom domains, wildcard DNS, certificates, www, redirects
+- [docs/servers.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/docs/servers.md): adding more servers to one panel
+- [docs/operations.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/docs/operations.md): updates, rollback, incident recovery, backups, secrets, uninstall
+- [docs/cms-portal.md](https://github.com/ARTFROST1/FreimDeploy/blob/main/docs/cms-portal.md): the optional client CMS portal and what a site must provide to work with it
+- [install.sh](https://github.com/ARTFROST1/FreimDeploy/blob/main/install.sh): the installer itself
+- [Releases](https://github.com/ARTFROST1/FreimDeploy/releases): signed builds
 
 ## Notes
 

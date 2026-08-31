@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="FrostDeploy — alternativa autoalojada a Vercel" width="900">
+<img src="assets/banner.svg" alt="Freim Deploy — alternativa autoalojada a Vercel" width="900">
 
 <p>
   <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-334155?style=for-the-badge"></a>
@@ -11,13 +11,13 @@
 
 <h3>Tu propio Vercel, en tu propio servidor.</h3>
 
-<p><b>FrostDeploy es una plataforma de despliegue autoalojada para tu VPS/VDS:<br>
+<p><b>Freim Deploy es una plataforma de despliegue autoalojada para tu VPS/VDS:<br>
 una alternativa a Vercel, Netlify y Render que te pertenece por completo.</b><br>
 Conecta un repositorio Git y pulsa Deploy: build, HTTPS, dominios y rollback ya están resueltos.</p>
 
 <p>
-  <a href="https://github.com/ARTFROST1/FrostDeploy/releases/latest"><img alt="Última versión" src="https://img.shields.io/github/v/release/ARTFROST1/FrostDeploy?include_prereleases&sort=semver&style=for-the-badge&label=release&color=38bdf8&logo=github&logoColor=white"></a>
-  <a href="https://github.com/ARTFROST1/FrostDeploy/releases"><img alt="Descargas" src="https://img.shields.io/github/downloads/ARTFROST1/FrostDeploy/total?style=for-the-badge&label=downloads&color=22c55e"></a>
+  <a href="https://github.com/ARTFROST1/FreimDeploy/releases/latest"><img alt="Última versión" src="https://img.shields.io/github/v/release/ARTFROST1/FreimDeploy?include_prereleases&sort=semver&style=for-the-badge&label=release&color=38bdf8&logo=github&logoColor=white"></a>
+  <a href="https://github.com/ARTFROST1/FreimDeploy/releases"><img alt="Descargas" src="https://img.shields.io/github/downloads/ARTFROST1/FreimDeploy/total?style=for-the-badge&label=downloads&color=22c55e"></a>
   <img alt="Tiempo de instalación" src="https://img.shields.io/badge/instalación-~10_minutos-6366f1?style=for-the-badge">
   <a href="LICENSE"><img alt="Licencia" src="https://img.shields.io/badge/license-proprietary-64748b?style=for-the-badge"></a>
 </p>
@@ -32,6 +32,14 @@ Conecta un repositorio Git y pulsa Deploy: build, HTTPS, dominios y rollback ya 
 
 </div>
 
+> [!NOTE]
+> **FrostDeploy ahora se llama Freim Deploy.** El mismo producto, el mismo repositorio y el mismo
+> instalador: solo cambia el nombre (en este mismo terreno ya existe un proyecto llamado Frost).
+> **En tu servidor no se renombra nada:** las rutas (`/opt/frostdeploy`, `/srv/frostdeploy`), el
+> comando `frostdeploy` y el archivo `frostdeploy.json` que pones en tu repositorio conservan a
+> propósito sus nombres antiguos, para que las instalaciones que ya existen sigan funcionando y
+> actualizándose solas.
+
 ---
 
 ## ⚡ Instalación
@@ -39,11 +47,11 @@ Conecta un repositorio Git y pulsa Deploy: build, HTTPS, dominios y rollback ya 
 Un solo comando en un servidor limpio con Debian 12+ / Ubuntu 22.04+, como `root`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash
 ```
 
 <p align="center">
-  <img src="assets/screens/01-dashboard.jpg" alt="Panel de FrostDeploy — todos los sitios en una pantalla" width="900">
+  <img src="assets/screens/01-dashboard.jpg" alt="Panel de Freim Deploy — todos los sitios en una pantalla" width="900">
 </p>
 
 Después sigue la **[Guía rápida](#-guía-rápida)**: cinco pasos, unos diez minutos, desde un servidor
@@ -59,15 +67,15 @@ agente de programación: este repositorio está escrito para que ellos lo entien
 **Envíale este enlace a tu agente:**
 
 ```
-https://github.com/ARTFROST1/FrostDeploy
+https://github.com/ARTFROST1/FreimDeploy
 ```
 
 **…o pega este prompt:**
 
 ```text
-Instala FrostDeploy en mi servidor y configúralo de principio a fin.
+Instala Freim Deploy en mi servidor y configúralo de principio a fin.
 
-Las instrucciones están aquí: https://github.com/ARTFROST1/FrostDeploy
+Las instrucciones están aquí: https://github.com/ARTFROST1/FreimDeploy
 (el README y AGENTS.md). Síguelas paso a paso.
 
 Mi servidor:  root@<IP-DEL-SERVIDOR>
@@ -137,7 +145,7 @@ dig +short A cualquiercosa.example.com @1.1.1.1   # debe devolver la IP de tu se
 
 ```bash
 ssh root@<IP del servidor>
-curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash
 ```
 
 Entre dos y cinco minutos. Instala todo lo necesario y arranca el panel.
@@ -220,7 +228,7 @@ pulsa Publicar. El cambio se commitea a Git y se vuelve a desplegar.
 
 ```mermaid
 flowchart LR
-    G["Tu repositorio Git"] -->|Deploy| P["Panel FrostDeploy<br/>en tu servidor"]
+    G["Tu repositorio Git"] -->|Deploy| P["Panel Freim Deploy<br/>en tu servidor"]
     P -->|compila y ejecuta| S1["tienda.example.com"]
     P -->|compila y ejecuta| S2["sitio-cliente.com"]
     S1 -->|HTTPS| V["Visitantes"]
@@ -252,7 +260,7 @@ servidor:
 | `frostdeploy update` | Actualiza a la última versión — vuelve atrás solo si algo falla |
 | `frostdeploy rollback` | Vuelve a la versión anterior |
 | `frostdeploy reset-password` | Nueva contraseña de administrador si te quedas fuera |
-| `frostdeploy uninstall` | Desinstala FrostDeploy (con `--purge` borra también datos y sitios) |
+| `frostdeploy uninstall` | Desinstala Freim Deploy (con `--purge` borra también datos y sitios) |
 
 ---
 
@@ -270,7 +278,7 @@ servidor, ejecuta `frostdeploy status` para confirmar que el panel está corrien
 <details>
 <summary><b>El instalador dice <code>Unsupported OS</code></b></summary>
 
-FrostDeploy necesita Debian 12+ o Ubuntu 22.04+ sobre `x86_64`. AlmaLinux, CentOS, Rocky, Fedora,
+Freim Deploy necesita Debian 12+ o Ubuntu 22.04+ sobre `x86_64`. AlmaLinux, CentOS, Rocky, Fedora,
 Arch y arm64 no están soportados. Reinstala el servidor con una imagen compatible.
 
 </details>
@@ -349,7 +357,7 @@ servidor, que es justo por lo que 1 GB de RAM basta para empezar.
 <details>
 <summary><b>¿Puedo mudarme a otro servidor más adelante?</b></summary>
 
-Sí: instala FrostDeploy en el servidor nuevo y restaura una copia de seguridad.
+Sí: instala Freim Deploy en el servidor nuevo y restaura una copia de seguridad.
 
 </details>
 
@@ -366,7 +374,7 @@ instalarse.
 
 ## 📚 Documentación
 
-Todo lo necesario para usar FrostDeploy sin acceso a su código fuente está en
+Todo lo necesario para usar Freim Deploy sin acceso a su código fuente está en
 **[docs/](docs/)** (en inglés):
 
 | Documento | De qué trata |
@@ -397,12 +405,12 @@ ejecutarlo; el código fuente de la aplicación no se distribuye.
 <div align="center">
 <br>
 
-**[⚡ Instalar ahora](#-instalación)** · [Releases](https://github.com/ARTFROST1/FrostDeploy/releases) · [Instrucciones para agentes](AGENTS.md) · [Hacer una pregunta](https://github.com/ARTFROST1/FrostDeploy/issues/new/choose)
+**[⚡ Instalar ahora](#-instalación)** · [Releases](https://github.com/ARTFROST1/FreimDeploy/releases) · [Instrucciones para agentes](AGENTS.md) · [Hacer una pregunta](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
 
 [English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
-<sub><b>FrostDeploy</b> — plataforma de despliegue autoalojada y alternativa a Vercel, Netlify, Render
-y Heroku para tu propio VPS. Despliega Next.js, Astro, Nuxt, SvelteKit, Remix y sitios estáticos en
+<sub><b>Freim Deploy</b> (antes <b>FrostDeploy</b>) — plataforma de despliegue autoalojada y
+alternativa a Vercel, Netlify, Render y Heroku para tu propio VPS. Despliega Next.js, Astro, Nuxt, SvelteKit, Remix y sitios estáticos en
 tu servidor con HTTPS automático, dominios propios y rollback en un clic. Un PaaS autoalojado en la
 línea de Coolify, Dokku y CapRover, pero sin Docker.</sub>
 

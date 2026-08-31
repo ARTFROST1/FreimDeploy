@@ -1,7 +1,14 @@
 # AGENTS.md — instructions for AI agents
 
-You are installing **FrostDeploy** (a self-hosted deploy platform) on a server for a human user.
+You are installing **Freim Deploy** (a self-hosted deploy platform) on a server for a human user.
 This file is the runbook. Follow it in order. Human-facing overview: [README.md](README.md).
+
+> [!IMPORTANT]
+> The product was renamed from FrostDeploy to Freim Deploy. The rename never reached the disk and
+> never will: the paths (`/opt/frostdeploy`, `/srv/frostdeploy`), the CLI command `frostdeploy`,
+> the unit `frostdeploy.service`, the panel subdomain `frostdeploy.<DOMAIN>` and the repository
+> config file `frostdeploy.json` all keep their old names. Do not "fix" them to `freim*` —
+> nothing would find them. The installer output still says `FrostDeploy`; that is expected.
 
 The user may know nothing about servers. Explain each step in one plain sentence before you run it,
 and never assume they can debug something you skipped.
@@ -59,17 +66,18 @@ the user will think the install broke.
 ## 3. Install
 
 ```bash
-ssh root@<SERVER-IP> 'curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash'
+ssh root@<SERVER-IP> 'curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash'
 ```
 
 Takes 2–5 minutes. Success looks like:
 
 - a line containing `подпись релиза проверена (ed25519)` — the release signature was verified;
-- a final banner saying FrostDeploy is ready.
+- a final banner saying the platform is ready — the installer still prints the old name,
+  `FrostDeploy`, and that is expected.
 
 If the run reports that the signature does **not** verify, stop. Do not retry with any flag, do not
 work around it — report it to the user and point them at
-https://github.com/ARTFROST1/FrostDeploy/security/advisories/new
+https://github.com/ARTFROST1/FreimDeploy/security/advisories/new
 
 ---
 
@@ -151,7 +159,7 @@ field names. The two rules that break most first deploys: a server-side app must
 | `frostdeploy update` | Update to the latest release; rolls back automatically on failure |
 | `frostdeploy rollback` | Return to the previous release |
 | `frostdeploy reset-password` | Set a new admin password |
-| `frostdeploy uninstall [--purge]` | Remove FrostDeploy; `--purge` also deletes data and sites |
+| `frostdeploy uninstall [--purge]` | Remove Freim Deploy; `--purge` also deletes data and sites |
 
 Re-running `install.sh` on an existing install is equivalent to `frostdeploy update`: it preserves
 the database and configuration.

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="FrostDeploy — 自托管的 Vercel 替代方案" width="900">
+<img src="assets/banner.svg" alt="Freim Deploy — 自托管的 Vercel 替代方案" width="900">
 
 <p>
   <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-334155?style=for-the-badge"></a>
@@ -11,13 +11,13 @@
 
 <h3>属于你自己的 Vercel，跑在你自己的服务器上。</h3>
 
-<p><b>FrostDeploy 是部署在自有 VPS / VDS 上的自托管部署平台，<br>
+<p><b>Freim Deploy 是部署在自有 VPS / VDS 上的自托管部署平台，<br>
 是完全属于你的 Vercel、Netlify、Render 替代方案。</b><br>
 连接 Git 仓库，点一下 Deploy：构建、HTTPS、域名和回滚全部自动完成。</p>
 
 <p>
-  <a href="https://github.com/ARTFROST1/FrostDeploy/releases/latest"><img alt="最新版本" src="https://img.shields.io/github/v/release/ARTFROST1/FrostDeploy?include_prereleases&sort=semver&style=for-the-badge&label=release&color=38bdf8&logo=github&logoColor=white"></a>
-  <a href="https://github.com/ARTFROST1/FrostDeploy/releases"><img alt="下载量" src="https://img.shields.io/github/downloads/ARTFROST1/FrostDeploy/total?style=for-the-badge&label=downloads&color=22c55e"></a>
+  <a href="https://github.com/ARTFROST1/FreimDeploy/releases/latest"><img alt="最新版本" src="https://img.shields.io/github/v/release/ARTFROST1/FreimDeploy?include_prereleases&sort=semver&style=for-the-badge&label=release&color=38bdf8&logo=github&logoColor=white"></a>
+  <a href="https://github.com/ARTFROST1/FreimDeploy/releases"><img alt="下载量" src="https://img.shields.io/github/downloads/ARTFROST1/FreimDeploy/total?style=for-the-badge&label=downloads&color=22c55e"></a>
   <img alt="安装耗时" src="https://img.shields.io/badge/部署-约_10_分钟-6366f1?style=for-the-badge">
   <a href="LICENSE"><img alt="许可证" src="https://img.shields.io/badge/license-proprietary-64748b?style=for-the-badge"></a>
 </p>
@@ -32,6 +32,12 @@
 
 </div>
 
+> [!NOTE]
+> **FrostDeploy 现已更名为 Freim Deploy。** 还是同一个产品、同一个仓库、同一个安装脚本，只是换了名字（这个
+> 领域里已经有一个叫 Frost 的项目）。**服务器上的名字一个都没有改：** 路径（`/opt/frostdeploy`、
+> `/srv/frostdeploy`）、命令 `frostdeploy`，以及你放进自己仓库的 `frostdeploy.json`，都是特意保留旧名
+> 字的，好让已经装好的实例继续正常运行、继续自动更新。
+
 ---
 
 ## ⚡ 安装
@@ -39,11 +45,11 @@
 在全新的 Debian 12+ / Ubuntu 22.04+ 服务器上，以 `root` 执行一条命令：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash
 ```
 
 <p align="center">
-  <img src="assets/screens/01-dashboard.jpg" alt="FrostDeploy 面板 —— 所有站点在一个屏幕上" width="900">
+  <img src="assets/screens/01-dashboard.jpg" alt="Freim Deploy 面板 —— 所有站点在一个屏幕上" width="900">
 </p>
 
 然后按 **[快速开始](#-快速开始)** 走完五步 —— 大约十分钟，从一台空服务器到第一个站点上线并启用 HTTPS。
@@ -57,15 +63,15 @@ curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.
 **把这个链接发给你的代理：**
 
 ```
-https://github.com/ARTFROST1/FrostDeploy
+https://github.com/ARTFROST1/FreimDeploy
 ```
 
 **……或者直接粘贴这段提示词：**
 
 ```text
-请帮我在服务器上安装并完整配置 FrostDeploy。
+请帮我在服务器上安装并完整配置 Freim Deploy。
 
-说明在这里：https://github.com/ARTFROST1/FrostDeploy（README 和 AGENTS.md）。
+说明在这里：https://github.com/ARTFROST1/FreimDeploy（README 和 AGENTS.md）。
 按照上面的步骤逐步执行。
 
 我的服务器：root@<服务器 IP>
@@ -122,7 +128,7 @@ dig +short A anything.example.com @1.1.1.1   # 应返回你的服务器 IP
 
 ```bash
 ssh root@<服务器 IP>
-curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash
 ```
 
 耗时 2–5 分钟，脚本会装好所有依赖并启动面板。
@@ -196,7 +202,7 @@ ssh -L 9000:127.0.0.1:9000 root@<服务器 IP>
 
 ```mermaid
 flowchart LR
-    G["你的 Git 仓库"] -->|Deploy| P["FrostDeploy 面板<br/>运行在你的服务器上"]
+    G["你的 Git 仓库"] -->|Deploy| P["Freim Deploy 面板<br/>运行在你的服务器上"]
     P -->|构建并运行| S1["shop.example.com"]
     P -->|构建并运行| S2["client-site.com"]
     S1 -->|HTTPS| V["访问者"]
@@ -226,7 +232,7 @@ flowchart LR
 | `frostdeploy update` | 更新到最新版本 —— 出问题会自动回滚 |
 | `frostdeploy rollback` | 回到上一个版本 |
 | `frostdeploy reset-password` | 忘记密码时重设管理员密码 |
-| `frostdeploy uninstall` | 卸载 FrostDeploy（加 `--purge` 会连数据和站点一起删除） |
+| `frostdeploy uninstall` | 卸载 Freim Deploy（加 `--purge` 会连数据和站点一起删除） |
 
 ---
 
@@ -242,7 +248,7 @@ flowchart LR
 <details>
 <summary><b>安装脚本提示 <code>Unsupported OS</code></b></summary>
 
-FrostDeploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux、CentOS、Rocky、Fedora、Arch 和 arm64 均不支持，请用受支持的镜像重装系统。
+Freim Deploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux、CentOS、Rocky、Fedora、Arch 和 arm64 均不支持，请用受支持的镜像重装系统。
 
 </details>
 
@@ -309,7 +315,7 @@ FrostDeploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 <details>
 <summary><b>以后能换服务器吗？</b></summary>
 
-可以 —— 在新服务器上安装 FrostDeploy，然后恢复备份。
+可以 —— 在新服务器上安装 Freim Deploy，然后恢复备份。
 
 </details>
 
@@ -324,7 +330,7 @@ FrostDeploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 
 ## 📚 文档
 
-在没有源代码的情况下运行 FrostDeploy 所需的一切，都在 **[docs/](docs/)**（英文）：
+在没有源代码的情况下运行 Freim Deploy 所需的一切，都在 **[docs/](docs/)**（英文）：
 
 | 文档 | 内容 |
 | --- | --- |
@@ -351,11 +357,11 @@ FrostDeploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 <div align="center">
 <br>
 
-**[⚡ 立即安装](#-安装)** · [版本发布](https://github.com/ARTFROST1/FrostDeploy/releases) · [代理说明](AGENTS.md) · [提问](https://github.com/ARTFROST1/FrostDeploy/issues/new/choose)
+**[⚡ 立即安装](#-安装)** · [版本发布](https://github.com/ARTFROST1/FreimDeploy/releases) · [代理说明](AGENTS.md) · [提问](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
 
 [English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
-<sub><b>FrostDeploy</b> —— 自托管部署平台，Vercel、Netlify、Render、Heroku 的自建替代方案。在自己的 VPS / VDS
+<sub><b>Freim Deploy</b>（原 <b>FrostDeploy</b>）—— 自托管部署平台，Vercel、Netlify、Render、Heroku 的自建替代方案。在自己的 VPS / VDS
 上部署 Next.js、Astro、Nuxt、SvelteKit、Remix 和静态网站，自动 HTTPS、自定义域名、一键回滚。类似 Coolify、
 Dokku、CapRover 的自托管 PaaS —— 但不需要 Docker。</sub>
 

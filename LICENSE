@@ -1,20 +1,20 @@
-FrostDeploy — Proprietary License
+Freim Deploy (formerly FrostDeploy) — Proprietary License
 Copyright (c) 2026 ARTFROST1. All rights reserved.
 
-FrostDeploy is proprietary software. It is not open source, and no rights are
+Freim Deploy is proprietary software. It is not open source, and no rights are
 granted except the ones stated below.
 
 1. THIS REPOSITORY
    This repository is a distribution channel. It contains the installer script
    (`install.sh`), documentation, and compiled release artifacts published under
-   GitHub Releases. The source code of FrostDeploy is not distributed here or
+   GitHub Releases. The source code of Freim Deploy is not distributed here or
    anywhere else, and is not covered by any grant in this file.
 
 2. WHAT YOU MAY DO
    a. Read, review and audit `install.sh` and the documentation in this
       repository. They are public precisely so that they can be inspected before
       being executed as root.
-   b. Download release artifacts and install, run and update FrostDeploy on
+   b. Download release artifacts and install, run and update Freim Deploy on
       servers you own or operate, provided you are an authorized recipient — the
       copyright holder or a person or organization to whom the copyright holder
       has granted a license.
@@ -29,7 +29,7 @@ granted except the ones stated below.
       restriction is prohibited by applicable law;
    c. modify the release artifacts and distribute the result;
    d. remove or alter copyright notices, signatures, or license text;
-   e. use the FrostDeploy name or marks to endorse or promote derived offerings.
+   e. use the Freim Deploy name or marks to endorse or promote derived offerings.
 
 4. NO WARRANTY
    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -46,4 +46,4 @@ granted except the ones stated below.
 
 6. CONTACT
    For licensing, commercial use, or permission requests, open an issue at
-   https://github.com/ARTFROST1/FrostDeploy/issues
+   https://github.com/ARTFROST1/FreimDeploy/issues

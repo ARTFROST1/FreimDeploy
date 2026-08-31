@@ -1,6 +1,10 @@
 # Documentation
 
-Everything you need to run FrostDeploy without access to its source code.
+Everything you need to run Freim Deploy without access to its source code.
+
+> The product was renamed from FrostDeploy to Freim Deploy. Nothing on the server was renamed:
+> the paths, the `frostdeploy` command and the `frostdeploy.json` file in your repository keep
+> their old names on purpose, so existing installs keep working.
 
 | Document | What is in it |
 |---|---|

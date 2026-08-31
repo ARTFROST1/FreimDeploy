@@ -43,7 +43,7 @@ RAM. No Docker, no pre-installed runtime — the bootstrap script installs what 
 
 ## Servers that already host something
 
-FrostDeploy manages the Caddy configuration on the servers it controls. If Caddy is already serving
+Freim Deploy manages the Caddy configuration on the servers it controls. If Caddy is already serving
 something on that machine, the installer and the bootstrap notice a foreign configuration and do not
 silently take it over.
 

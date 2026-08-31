@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="FrostDeploy — self-hosted аналог Vercel" width="900">
+<img src="assets/banner.svg" alt="Freim Deploy — self-hosted аналог Vercel" width="900">
 
 <p>
   <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-334155?style=for-the-badge"></a>
@@ -11,13 +11,13 @@
 
 <h3>Свой Vercel — на своём сервере.</h3>
 
-<p><b>FrostDeploy — self-hosted платформа для деплоя сайтов на ваш VPS/VDS,<br>
+<p><b>Freim Deploy — self-hosted платформа для деплоя сайтов на ваш VPS/VDS,<br>
 аналог Vercel, Netlify и Render, который принадлежит вам целиком.</b><br>
 Подключаете git-репозиторий, жмёте Deploy — сборка, HTTPS, домены и откат уже сделаны за вас.</p>
 
 <p>
-  <a href="https://github.com/ARTFROST1/FrostDeploy/releases/latest"><img alt="Последний релиз" src="https://img.shields.io/github/v/release/ARTFROST1/FrostDeploy?include_prereleases&sort=semver&style=for-the-badge&label=release&color=38bdf8&logo=github&logoColor=white"></a>
-  <a href="https://github.com/ARTFROST1/FrostDeploy/releases"><img alt="Загрузки" src="https://img.shields.io/github/downloads/ARTFROST1/FrostDeploy/total?style=for-the-badge&label=downloads&color=22c55e"></a>
+  <a href="https://github.com/ARTFROST1/FreimDeploy/releases/latest"><img alt="Последний релиз" src="https://img.shields.io/github/v/release/ARTFROST1/FreimDeploy?include_prereleases&sort=semver&style=for-the-badge&label=release&color=38bdf8&logo=github&logoColor=white"></a>
+  <a href="https://github.com/ARTFROST1/FreimDeploy/releases"><img alt="Загрузки" src="https://img.shields.io/github/downloads/ARTFROST1/FreimDeploy/total?style=for-the-badge&label=downloads&color=22c55e"></a>
   <img alt="Время установки" src="https://img.shields.io/badge/установка-~10_минут-6366f1?style=for-the-badge">
   <a href="LICENSE"><img alt="Лицензия" src="https://img.shields.io/badge/license-proprietary-64748b?style=for-the-badge"></a>
 </p>
@@ -32,6 +32,13 @@
 
 </div>
 
+> [!NOTE]
+> **FrostDeploy теперь называется Freim Deploy.** Тот же продукт, тот же репозиторий, тот же
+> установщик — сменилось только имя (в этой же нише есть проект Frost). **На сервере не
+> переименовано ничего:** пути (`/opt/frostdeploy`, `/srv/frostdeploy`), команда `frostdeploy` и
+> файл `frostdeploy.json`, который вы кладёте в свой репозиторий, сознательно остались со старыми
+> именами — чтобы все уже работающие установки продолжали работать и обновляться.
+
 ---
 
 ## ⚡ Установка
@@ -39,11 +46,11 @@
 Одна команда на чистом сервере с Debian 12+ / Ubuntu 22.04+, под `root`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash
 ```
 
 <p align="center">
-  <img src="assets/screens/01-dashboard.jpg" alt="Панель FrostDeploy — все сайты на одном экране" width="900">
+  <img src="assets/screens/01-dashboard.jpg" alt="Панель Freim Deploy — все сайты на одном экране" width="900">
 </p>
 
 Дальше — **[Быстрый старт](#-быстрый-старт)**: пять шагов, около десяти минут от пустого сервера до
@@ -59,15 +66,15 @@ curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.
 **Скиньте агенту ссылку:**
 
 ```
-https://github.com/ARTFROST1/FrostDeploy
+https://github.com/ARTFROST1/FreimDeploy
 ```
 
 **…или вставьте этот промпт:**
 
 ```text
-Установи мне FrostDeploy на сервер и настрой всё до конца.
+Установи мне Freim Deploy на сервер и настрой всё до конца.
 
-Инструкции — здесь: https://github.com/ARTFROST1/FrostDeploy (README и AGENTS.md).
+Инструкции — здесь: https://github.com/ARTFROST1/FreimDeploy (README и AGENTS.md).
 Читай их и действуй по шагам.
 
 Мой сервер:  root@<IP-СЕРВЕРА>
@@ -133,7 +140,7 @@ dig +short A что-угодно.example.com @1.1.1.1   # должен верн�
 
 ```bash
 ssh root@<IP сервера>
-curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FrostDeploy/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.sh | sudo bash
 ```
 
 Две–пять минут. Установщик поставит всё необходимое и запустит панель.
@@ -216,7 +223,7 @@ Deploy.
 
 ```mermaid
 flowchart LR
-    G["Ваш git-репозиторий"] -->|Deploy| P["Панель FrostDeploy<br/>на вашем сервере"]
+    G["Ваш git-репозиторий"] -->|Deploy| P["Панель Freim Deploy<br/>на вашем сервере"]
     P -->|собирает и запускает| S1["shop.example.com"]
     P -->|собирает и запускает| S2["сайт-клиента.ru"]
     S1 -->|HTTPS| V["Посетители"]
@@ -247,7 +254,7 @@ flowchart LR
 | `frostdeploy update` | Обновиться до последней версии — при проблеме откатится сама |
 | `frostdeploy rollback` | Вернуться на предыдущую версию |
 | `frostdeploy reset-password` | Задать новый пароль администратора, если потеряли доступ |
-| `frostdeploy uninstall` | Удалить FrostDeploy (с `--purge` — вместе с данными и сайтами) |
+| `frostdeploy uninstall` | Удалить Freim Deploy (с `--purge` — вместе с данными и сайтами) |
 
 ---
 
@@ -344,7 +351,7 @@ flowchart LR
 <details>
 <summary><b>Можно потом переехать на другой сервер?</b></summary>
 
-Да — поставить FrostDeploy на новый сервер и восстановить бэкап.
+Да — поставить Freim Deploy на новый сервер и восстановить бэкап.
 
 </details>
 
@@ -360,7 +367,7 @@ flowchart LR
 
 ## 📚 Документация
 
-Всё, что нужно, чтобы пользоваться FrostDeploy без доступа к исходному коду, лежит в
+Всё, что нужно, чтобы пользоваться Freim Deploy без доступа к исходному коду, лежит в
 **[docs/](docs/)** (на английском):
 
 | Документ | О чём |
@@ -391,12 +398,12 @@ systemd для процессов. Никаких контейнеров, орк
 <div align="center">
 <br>
 
-**[⚡ Установить](#-установка)** · [Релизы](https://github.com/ARTFROST1/FrostDeploy/releases) · [Инструкция для агента](AGENTS.md) · [Задать вопрос](https://github.com/ARTFROST1/FrostDeploy/issues/new/choose)
+**[⚡ Установить](#-установка)** · [Релизы](https://github.com/ARTFROST1/FreimDeploy/releases) · [Инструкция для агента](AGENTS.md) · [Задать вопрос](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
 
 [English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
-<sub><b>FrostDeploy</b> — self-hosted платформа деплоя и аналог Vercel, Netlify, Render и Heroku для
-своего VPS. Деплой Next.js, Astro, Nuxt, SvelteKit, Remix и статических сайтов на собственный сервер:
+<sub><b>Freim Deploy</b> (ранее <b>FrostDeploy</b>) — self-hosted платформа деплоя и аналог Vercel,
+Netlify, Render и Heroku для своего VPS. Деплой Next.js, Astro, Nuxt, SvelteKit, Remix и статических сайтов на собственный сервер:
 автоматический HTTPS, свои домены, откат в один клик. Self-hosted PaaS в духе Coolify, Dokku и
 CapRover — но без Docker.</sub>
 

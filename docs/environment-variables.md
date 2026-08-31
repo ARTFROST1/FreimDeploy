@@ -1,7 +1,7 @@
 # Environment variables
 
 Environment variables are the single most common source of "it works locally, it is broken in
-production". FrostDeploy has two completely different moments where a variable can matter, and a
+production". Freim Deploy has two completely different moments where a variable can matter, and a
 variable that is not present in the right one simply does not exist as far as your site is concerned.
 
 ## The two moments

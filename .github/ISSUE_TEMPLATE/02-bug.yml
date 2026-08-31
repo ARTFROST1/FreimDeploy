@@ -13,7 +13,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: FrostDeploy version
+      label: Freim Deploy version
       placeholder: "v0.2.0-rc.59"
     validations:
       required: true

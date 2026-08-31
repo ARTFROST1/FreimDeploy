@@ -1,8 +1,12 @@
 # frostdeploy.json
 
-The project configuration file — FrostDeploy's answer to `vercel.json` or `render.yaml`. It lives in
+The project configuration file — Freim Deploy's answer to `vercel.json` or `render.yaml`. It lives in
 the **root of your repository**. Everything in it is optional: without the file, a project is
 deployed using the settings from the panel and framework autodetection.
+
+> **Why the old name?** The product was renamed from FrostDeploy to Freim Deploy, but this file is a
+> contract with every install and every repository that already exists, so it was deliberately left
+> alone and will keep the old name. It is `frostdeploy.json`; nothing reads `freimdeploy.json`.
 
 **Priority: `frostdeploy.json` > project settings in the panel > framework autodetection.**
 

@@ -19,7 +19,7 @@ It cannot be edited directly. The project name is what defines it.
 A   *   →   <server IP>
 ```
 
-Vercel can hand out `*.vercel.app` because it owns that zone; FrostDeploy depends on you adding one
+Vercel can hand out `*.vercel.app` because it owns that zone; Freim Deploy depends on you adding one
 wildcard record for your platform domain. One record covers every project you will ever create.
 Without it the platform address resolves nowhere.
 
@@ -37,6 +37,8 @@ Two deliberate exceptions:
 
 - **The apex itself stays free.** The setup wizard puts the panel on `frostdeploy.<apex>` precisely so
   that the apex remains available for your own landing page — attaching it to a project is normal.
+  (The subdomain keeps the old product name on purpose: the product is now called Freim Deploy, but
+  renaming the host would break certificates and bookmarks on installs that already exist.)
 - **`www.<X>` when `X` is already a domain of the same project.**
 
 ## Custom domains

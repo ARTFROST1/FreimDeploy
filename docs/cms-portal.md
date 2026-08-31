@@ -10,7 +10,7 @@ They log in to a portal of their own with an email and a password, and get:
 - **their live site in an iframe** — they click a piece of text and edit it in place;
 - **a sidebar with forms** — lists, prices, FAQ entries, anything structured, generated from the
   site's own content contract;
-- **a Publish button** — the draft is committed to the site's GitHub repository, FrostDeploy rebuilds
+- **a Publish button** — the draft is committed to the site's GitHub repository, Freim Deploy rebuilds
   the site automatically, and the change is live a couple of minutes later.
 
 Content lives in Git, in the repository, as it should. The portal is an editor, not a database.

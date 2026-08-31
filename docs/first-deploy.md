@@ -6,7 +6,10 @@ run the installer and finished the setup wizard — if not, start with the
 
 ## 1. Prepare the repository
 
-Add a `frostdeploy.json` to the root of your repository. The minimum for a static site built by npm:
+Add a `frostdeploy.json` to the root of your repository. The old product name in the filename is
+intentional and permanent — the product is now called Freim Deploy, but the file keeps its name so
+that repositories and installs that already exist keep deploying. The minimum for a static site
+built by npm:
 
 ```json
 { "kind": "static", "build": { "command": "npm run build", "output": "dist" } }

@@ -16,7 +16,7 @@ The installer puts `frostdeploy` in `/usr/local/bin` on the panel host.
 | `frostdeploy rollback` | Return to the previous release |
 | `frostdeploy reset-password` | Set a new admin password if you are locked out |
 | `frostdeploy reencrypt` | Re-encrypt stored secrets under the current `ENCRYPTION_KEY` |
-| `frostdeploy uninstall` | Remove FrostDeploy (`--purge` also deletes data and sites) |
+| `frostdeploy uninstall` | Remove Freim Deploy (`--purge` also deletes data and sites) |
 
 ## Updating
 
