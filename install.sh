@@ -20,7 +20,23 @@ RELEASES_DIR="${INSTALL_DIR}/releases"
 DATA_DIR="/var/lib/frostdeploy"
 BACKUP_DIR="${DATA_DIR}/backups"
 ENV_FILE="${INSTALL_DIR}/.env"
-DIST_REPO="ARTFROST1/FrostDeploy"
+# Адрес dist-репозитория, откуда установщик и CLI тянут релизы.
+#
+# НЕСИММЕТРИЧНОСТЬ, которую нельзя «причесать». Репозиторий переименован
+# ARTFROST1/FrostDeploy → ARTFROST1/FreimDeploy. Новое имя получают только
+# НОВЫЕ установки — те, что поставятся этим файлом. На живых машинах парка в
+# /usr/local/bin/frostdeploy зашито СТАРОЕ имя, и поправить его задним числом
+# нечем: этот файл лежит на чужом диске, а не в нашем репозитории. Обновляются
+# такие машины исключительно благодаря редиректу GitHub со старого имени на
+# числовой id репозитория (проверено живьём: releases/latest, скачивание
+# тарбола и подписи через редирект работают).
+#
+# ОТСЮДА ЖЕЛЕЗНОЕ ПРАВИЛО: репозиторий с именем `FrostDeploy` под аккаунтом
+# ARTFROST1 создавать НЕЛЬЗЯ НИКОГДА. Новый репозиторий со старым именем
+# мгновенно убивает редирект — и весь парк разом теряет `frostdeploy update`,
+# молча и без способа починить удалённо. Старое имя не «освободилось»: оно
+# занято навсегда, просто занято редиректом.
+DIST_REPO="ARTFROST1/FreimDeploy"
 SERVICE_NAME="frostdeploy"
 FD_USER="frostdeploy"
 FD_PORT=9000
@@ -67,7 +83,7 @@ fi
 # ─── Banner ──────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${BOLD}╔══════════════════════════════════════╗${NC}"
-echo -e "${BOLD}║   FrostDeploy Installer v0.1         ║${NC}"
+echo -e "${BOLD}║   Freim Deploy Installer v0.1        ║${NC}"
 echo -e "${BOLD}╚══════════════════════════════════════╝${NC}"
 echo ""
 
@@ -102,7 +118,7 @@ case "${ID}" in
 esac
 
 if [[ "${SUPPORTED}" != "true" ]]; then
-  log_err "Unsupported OS: ${PRETTY_NAME}. FrostDeploy requires Ubuntu 22.04+ or Debian 12+"
+  log_err "Unsupported OS: ${PRETTY_NAME}. Freim Deploy requires Ubuntu 22.04+ or Debian 12+"
 fi
 log_ok "OS: ${PRETTY_NAME}"
 
@@ -243,7 +259,7 @@ verify_release() {
 if [[ -d "${RELEASES_DIR}/${VERSION}" ]]; then
   log_ok "Release ${VERSION} already present"
 else
-  log_info "Downloading FrostDeploy ${VERSION}..."
+  log_info "Downloading Freim Deploy ${VERSION}..."
   TMP_TGZ="$(mktemp)"
   TMP_SIG="$(mktemp)"
   curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
@@ -396,9 +412,9 @@ systemctl restart "${SERVICE_NAME}"
 sleep 3
 
 if systemctl is-active --quiet "${SERVICE_NAME}"; then
-  log_ok "FrostDeploy service is running"
+  log_ok "Freim Deploy service is running"
 else
-  log_err "FrostDeploy service failed to start. Check logs: journalctl -u ${SERVICE_NAME} -n 50"
+  log_err "Freim Deploy service failed to start. Check logs: journalctl -u ${SERVICE_NAME} -n 50"
 fi
 
 # ─── 13. Final output ───────────────────────────────────────────────────────
@@ -409,7 +425,7 @@ SERVER_IP=$(hostname -I | awk '{print $1}')
 
 echo ""
 echo -e "${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}║             FrostDeploy is ready! 🚀                         ║${NC}"
+echo -e "${BOLD}║             Freim Deploy is ready! 🚀                        ║${NC}"
 echo -e "${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e " ${BOLD}Панель слушает 127.0.0.1:${FD_PORT} и в интернет НЕ смотрит.${NC}"
