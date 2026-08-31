@@ -108,6 +108,17 @@ tier, and for anyone who wants a self-hosted PaaS instead of a monthly SaaS invo
 
 ---
 
+## 📦 Start from a template
+
+**[FreimSite](https://github.com/ARTFROST1/FreimSite)** is the official site template for Freim
+Deploy — an Astro 7 starter with SEO, islands and zero JavaScript by default. Every editable
+block on the page carries the CMS markup the client portal edits: the client clicks a heading or
+a price on the live site, types the new text, presses publish, and the change is committed to
+Git and redeployed. Click **Use this template** on its page to start a new site from it, then
+point it at your Freim Deploy panel.
+
+---
+
 ## 🚀 Quick start
 
 ### Step 1 — Get a server
@@ -221,7 +232,7 @@ Publish. The change is committed to Git and redeployed.
 | 💾 | **Backups** | Scheduled backups, locally or to any S3-compatible storage |
 | 📝 | **Client CMS portal** | Optional companion app where your clients edit their own site content without touching code |
 
-**Coming next:** automatic deploys on every push (Git webhooks), so a `git push` ships the site.
+Push-to-deploy already ships: connect the GitHub App once, and every `git push` builds and ships the site automatically — the “push webhook” trigger you saw above.
 
 ---
 

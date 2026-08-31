@@ -112,6 +112,18 @@ factura mensual de SaaS.
 
 ---
 
+## 📦 Empieza desde una plantilla
+
+**[FreimSite](https://github.com/ARTFROST1/FreimSite)** es la plantilla oficial de sitio para
+Freim Deploy: un starter de Astro 7 con SEO, islands y cero JavaScript por defecto. Cada bloque
+editable de la página lleva el marcado CMS que edita el portal del cliente: el cliente hace clic
+en un título o un precio directamente en el sitio en vivo, escribe el texto nuevo, pulsa
+publicar, y el cambio se confirma en Git y se vuelve a desplegar. El botón **Use this template**
+en su página arranca un sitio nuevo a partir de la plantilla — luego lo conectas a tu panel de
+Freim Deploy.
+
+---
+
 ## 🚀 Guía rápida
 
 ### Paso 1 — Consigue un servidor
@@ -226,7 +238,7 @@ pulsa Publicar. El cambio se commitea a Git y se vuelve a desplegar.
 | 💾 | **Copias de seguridad** | Programadas, en local o en cualquier almacenamiento compatible con S3 |
 | 📝 | **Portal CMS para clientes** | Aplicación opcional donde tus clientes editan el contenido de su sitio sin tocar código |
 
-**Próximamente:** despliegue automático en cada push (webhooks de Git), para que un `git push` publique el sitio.
+El despliegue automático en cada push ya funciona hoy: conecta la GitHub App una vez y cada `git push` construye y publica el sitio solo — el disparador «push webhook» que viste más arriba.
 
 ---
 

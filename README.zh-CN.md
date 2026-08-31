@@ -100,6 +100,16 @@ https://github.com/ARTFROST1/FreimDeploy
 
 ---
 
+## 📦 从模板开始
+
+**[FreimSite](https://github.com/ARTFROST1/FreimSite)** 是 Freim Deploy 的官方站点模板 ——
+一个基于 Astro 7 的启动模板，自带 SEO、islands 架构，默认零 JavaScript。页面上每个可编辑的
+区块都带有 CMS 标记，客户门户正是靠它工作：客户直接在上线的网站上点击标题或价格，输入新
+内容，点击发布，改动就会提交到 Git 并重新部署。仓库页面上的 **Use this template** 按钮可以
+从这个模板一键新建站点，然后把它接到你的 Freim Deploy 面板。
+
+---
+
 ## 🚀 快速开始
 
 ### 第 1 步 —— 准备服务器
@@ -198,7 +208,7 @@ ssh -L 9000:127.0.0.1:9000 root@<服务器 IP>
 | 💾 | **备份** | 定时备份到本地或任意 S3 兼容存储 |
 | 📝 | **客户 CMS 门户** | 可选的配套后台，让你的客户自己改站点内容，不用碰代码 |
 
-**即将推出：** 每次 push 自动部署（Git webhook）—— `git push` 之后站点自动上线。
+每次 push 自动部署已经上线：只需连接一次 GitHub App，之后每次 `git push` 都会自动构建并上线 —— 就是你在上面看到的「push webhook」触发方式。
 
 ---
 

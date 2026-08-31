@@ -22,3 +22,7 @@ New here? Read [first-deploy.md](first-deploy.md), then keep
 Installing? The [quick start](../README.md#-quick-start) is in the main README, and
 [AGENTS.md](../AGENTS.md) is a step-by-step runbook an AI agent can follow to do the whole setup with
 you.
+
+Need something to deploy? [FreimSite](https://github.com/ARTFROST1/FreimSite) is the platform's
+official site template — Astro 7, SEO-ready, carrying the CMS markup [cms-portal.md](cms-portal.md)
+edits. Click **Use this template** on its page to start a new site from it.

@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freim Deploy &amp; FreimSite — Documentation</title>
+<meta name="description" content="How Freim Deploy, a self-hosted deploy platform, and FreimSite, its official site template, fit together, plus an index of every documentation page for both.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Freim Deploy &amp; FreimSite — Documentation">
+<meta property="og:description" content="How Freim Deploy, a self-hosted deploy platform, and FreimSite, its official site template, fit together, plus an index of every documentation page for both.">
+<meta property="og:url" content="https://artfrost1.github.io/FreimDeploy/">
+<meta property="og:image" content="https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/assets/social-preview.jpg">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Freim Deploy &amp; FreimSite — Documentation">
+<meta name="twitter:description" content="How Freim Deploy, a self-hosted deploy platform, and FreimSite, its official site template, fit together, plus an index of every documentation page for both.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/assets/social-preview.jpg">
+
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #0a0a0a;
+    --mid: #6b6b6b;
+    --line: #d9d9d9;
+    --panel: #f4f4f4;
+    --code-bg: #f0f0f0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0a;
+      --fg: #f2f2f2;
+      --mid: #9a9a9a;
+      --line: #2e2e2e;
+      --panel: #161616;
+      --code-bg: #161616;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 1.25rem 5rem;
+  }
+
+  header.page-head {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    color: var(--mid);
+    margin: 0 0 0.6rem;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2.3rem);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .lede {
+    color: var(--mid);
+    font-size: 1.05rem;
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    margin: 0 0 0.9rem;
+    padding-top: 0;
+    letter-spacing: -0.01em;
+  }
+
+  section {
+    margin: 0 0 3rem;
+  }
+
+  p {
+    margin: 0 0 1rem;
+    max-width: 68ch;
+  }
+
+  a {
+    color: var(--fg);
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+  }
+  a:hover, a:focus {
+    text-decoration-color: var(--fg);
+  }
+
+  .cta {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--fg);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+  .cta:hover, .cta:focus {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .flow {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1.25rem 1.25rem 1.1rem;
+    background: var(--panel);
+    margin: 1.25rem 0 0;
+  }
+  .flow ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+  }
+  .flow li {
+    counter-increment: step;
+    position: relative;
+    padding: 0.55rem 0 0.55rem 2.1rem;
+    border-top: 1px solid var(--line);
+  }
+  .flow li:first-child { border-top: none; }
+  .flow li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    border: 1px solid var(--mid);
+    border-radius: 50%;
+    color: var(--mid);
+  }
+  .flow strong { display: block; }
+  .flow span { color: var(--mid); font-size: 0.94rem; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.94rem;
+  }
+  caption {
+    text-align: left;
+    color: var(--mid);
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.7rem;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+  thead th {
+    border-top: none;
+    border-bottom: 1px solid var(--fg);
+    color: var(--mid);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  td:first-child, th:first-child {
+    white-space: nowrap;
+  }
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-scroll table { border: none; }
+  .table-scroll th, .table-scroll td { border-color: var(--line); }
+
+  .group-row td {
+    background: var(--panel);
+    font-weight: 600;
+    color: var(--mid);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-top: 1px solid var(--line);
+  }
+
+  code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0.05em 0.4em;
+    font-size: 0.88em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    color: var(--mid);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--mid); }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 2rem 1rem 3.5rem; }
+    th, td { padding: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page-head">
+    <p class="kicker">Documentation index</p>
+    <h1>Freim Deploy &amp; FreimSite</h1>
+    <p class="lede">One is a self-hosted deploy platform. The other is the site template built
+      for it. This page explains both and links to everything either one has written down.</p>
+  </header>
+
+  <section id="platform">
+    <h2>What Freim Deploy is</h2>
+    <p><strong>Freim Deploy</strong> is a self-hosted deploy platform, built to feel like Vercel
+      or Netlify while the server, the domains and the data stay yours. Put it on a VDS you
+      already pay for, and it takes over the parts of shipping a site that are normally someone
+      else's SaaS: it watches a Git repository, builds it, issues and renews HTTPS certificates,
+      and keeps a history of releases you can roll back to in about a second.</p>
+    <p>It runs on Node 22, SQLite, <a href="https://caddyserver.com">Caddy</a> and systemd, with
+      no Docker, no Kubernetes and no vendor account watching what you deploy. One panel can
+      manage several servers and an unlimited number of projects, which is what makes it a
+      reasonable base for a freelancer or a studio hosting more than one client.</p>
+    <p>Framework autodetection covers Next.js, Astro, Nuxt, SvelteKit, Remix, Python and plain
+      static output. Deploys can trigger from a click in the dashboard, the CLI, or a Git push
+      webhook once one is connected.</p>
+    <p><a class="cta" href="../README.md#-quick-start">Install it: the quick start →</a></p>
+  </section>
+
+  <section id="template">
+    <h2>What FreimSite is</h2>
+    <p><strong>FreimSite</strong> is the official site template for Freim Deploy: an Astro 7
+      starter, not a page builder. It ships SEO groundwork, islands architecture, zero
+      JavaScript by default, and about twenty content collections defined with Zod schemas, so
+      the shape of a page's content is validated at build time rather than guessed at.</p>
+    <p>What sets it apart from a generic starter is markup, not tooling. Every block a client
+      might reasonably want to change carries a small data attribute contract, read and written
+      by a separate web app: the CMS portal. Nothing about that contract requires the client to
+      open a code editor.</p>
+    <p>It is MIT licensed and marked as a GitHub template repository, so starting a new site
+      from it is a button, not a fork-and-rename.</p>
+    <p><a class="cta" href="https://github.com/ARTFROST1/FreimSite">Use the template →</a></p>
+  </section>
+
+  <section id="connect">
+    <h2>How they connect</h2>
+    <p>Neither product does much alone. FreimSite is a repository until something builds and
+      serves it, and Freim Deploy is a build-and-serve engine until it has something worth
+      deploying. Together, one path runs from a GitHub repository to a client editing their own
+      site:</p>
+    <div class="flow">
+      <ol>
+        <li><strong>Repository</strong><span>Start a site from FreimSite, or point the platform at any repo it can build.</span></li>
+        <li><strong>Panel</strong><span>Freim Deploy pulls it, detects the framework, and builds it.</span></li>
+        <li><strong>Live site, its own domain</strong><span>HTTPS is issued automatically; the release goes live once its healthcheck passes.</span></li>
+        <li><strong>The client edits it themselves</strong><span>They open the CMS portal, click a heading or a price on the live page, and type.</span></li>
+        <li><strong>Committed and redeployed</strong><span>The edit becomes a Git commit, and the platform ships it. No code editor, ever, for the client.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="index">
+    <h2>Every documentation page</h2>
+    <p>The platform's docs live in this repository; the template's live in its own. Both sets
+      are plain Markdown, English throughout.</p>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Page</th><th>What's in it</th></tr>
+      </thead>
+      <tbody>
+        <tr class="group-row"><td colspan="2">Freim Deploy: the platform</td></tr>
+        <tr><td><a href="first-deploy.md">first-deploy.md</a></td><td>From a fresh install to your first site live on HTTPS</td></tr>
+        <tr><td><a href="frostdeploy-json.md">frostdeploy-json.md</a></td><td>The configuration reference: build, start command, static output, monorepos, python workers, several services in one repository</td></tr>
+        <tr><td><a href="environment-variables.md">environment-variables.md</a></td><td>Build time versus runtime, which variables reach the build and why secrets do not</td></tr>
+        <tr><td><a href="domains.md">domains.md</a></td><td>Platform addresses, custom domains, the wildcard record, certificates, <code>www</code>, redirects</td></tr>
+        <tr><td><a href="servers.md">servers.md</a></td><td>Adding more servers to one panel, and what the bootstrap does</td></tr>
+        <tr><td><a href="operations.md">operations.md</a></td><td>Updates, rollbacks, a site that is down, backups, secrets, uninstalling</td></tr>
+        <tr><td><a href="cms-portal.md">cms-portal.md</a></td><td>The optional portal where clients edit their own content</td></tr>
+        <tr class="group-row"><td colspan="2">FreimSite: the template (<code>docs/en/</code>)</td></tr>
+        <tr><td><a href="https://github.com/ARTFROST1/FreimSite/blob/main/docs/en/quick-start.md">quick-start.md</a></td><td>Install and run the template locally</td></tr>
+        <tr><td><a href="https://github.com/ARTFROST1/FreimSite/blob/main/docs/en/content.md">content.md</a></td><td>The rule behind every content collection: no editable text lives in component code</td></tr>
+        <tr><td><a href="https://github.com/ARTFROST1/FreimSite/blob/main/docs/en/cms.md">cms.md</a></td><td>How a client edits the site: the markup contract the CMS portal reads and writes</td></tr>
+        <tr><td><a href="https://github.com/ARTFROST1/FreimSite/blob/main/docs/en/deploy.md">deploy.md</a></td><td>Deploying the template to Freim Deploy, and why <code>frostdeploy.json</code> keeps its name</td></tr>
+        <tr><td><a href="https://github.com/ARTFROST1/FreimSite/blob/main/docs/en/structure.md">structure.md</a></td><td>The project's directory layout</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>Freim Deploy is proprietary; this repository is its distribution channel: installer,
+      documentation, release artifacts. FreimSite is MIT licensed. Source:
+      <a href="https://github.com/ARTFROST1/FreimDeploy">github.com/ARTFROST1/FreimDeploy</a> ·
+      <a href="https://github.com/ARTFROST1/FreimSite">github.com/ARTFROST1/FreimSite</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
