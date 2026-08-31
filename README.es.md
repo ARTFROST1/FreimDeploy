@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="Freim Deploy — alternativa autoalojada a Vercel" width="900">
+<img src="assets/banner.png" alt="Freim Deploy — alternativa autoalojada a Vercel" width="900">
 
 <p>
   <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-334155?style=for-the-badge"></a>
