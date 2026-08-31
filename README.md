@@ -232,7 +232,9 @@ Publish. The change is committed to Git and redeployed.
 | 💾 | **Backups** | Scheduled backups, locally or to any S3-compatible storage |
 | 📝 | **Client CMS portal** | Optional companion app where your clients edit their own site content without touching code |
 
-Push-to-deploy already ships: connect the GitHub App once, and every `git push` builds and ships the site automatically — the “push webhook” trigger you saw above.
+Push-to-deploy already ships: once a webhook is connected, a `git push` to GitHub, GitLab, Gitea
+or Bitbucket builds and ships the site automatically — the same “push webhook” trigger you saw
+above.
 
 ---
 
@@ -396,6 +398,9 @@ Everything needed to run Freim Deploy without access to its source code lives in
 | [Adding servers](docs/servers.md) | One panel, many servers, and what the bootstrap does |
 | [Operating your install](docs/operations.md) | Updates, rollbacks, a site that is down, backups, secrets |
 | [Client CMS portal](docs/cms-portal.md) | The optional portal where clients edit their own content |
+
+Prefer a browsable page? The same index, plus how Freim Deploy and FreimSite fit together, is
+also published at [artfrost1.github.io/FreimDeploy](https://artfrost1.github.io/FreimDeploy/).
 
 ---
 

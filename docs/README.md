@@ -26,3 +26,6 @@ you.
 Need something to deploy? [FreimSite](https://github.com/ARTFROST1/FreimSite) is the platform's
 official site template — Astro 7, SEO-ready, carrying the CMS markup [cms-portal.md](cms-portal.md)
 edits. Click **Use this template** on its page to start a new site from it.
+
+Prefer a browsable page over raw files? [This same index, plus how Freim Deploy and FreimSite fit
+together, is also published as a page.](https://artfrost1.github.io/FreimDeploy/)

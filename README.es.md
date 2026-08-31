@@ -238,7 +238,9 @@ pulsa Publicar. El cambio se commitea a Git y se vuelve a desplegar.
 | 💾 | **Copias de seguridad** | Programadas, en local o en cualquier almacenamiento compatible con S3 |
 | 📝 | **Portal CMS para clientes** | Aplicación opcional donde tus clientes editan el contenido de su sitio sin tocar código |
 
-El despliegue automático en cada push ya funciona hoy: conecta la GitHub App una vez y cada `git push` construye y publica el sitio solo — el disparador «push webhook» que viste más arriba.
+El despliegue automático en cada push ya funciona hoy: en cuanto conectas un webhook, un `git
+push` a GitHub, GitLab, Gitea o Bitbucket construye y publica el sitio solo — el mismo disparador
+«push webhook» que viste más arriba.
 
 ---
 
@@ -404,6 +406,9 @@ Todo lo necesario para usar Freim Deploy sin acceso a su código fuente está en
 | [Añadir servidores](docs/servers.md) | Un panel, varios servidores, y qué hace el bootstrap |
 | [Operación diaria](docs/operations.md) | Actualizaciones, rollbacks, un sitio caído, copias de seguridad, secretos |
 | [Portal CMS para clientes](docs/cms-portal.md) | El portal opcional donde los clientes editan su contenido |
+
+El mismo índice como página, con una explicación de cómo encajan Freim Deploy y FreimSite:
+[artfrost1.github.io/FreimDeploy](https://artfrost1.github.io/FreimDeploy/).
 
 ---
 

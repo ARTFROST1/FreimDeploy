@@ -208,7 +208,7 @@ ssh -L 9000:127.0.0.1:9000 root@<服务器 IP>
 | 💾 | **备份** | 定时备份到本地或任意 S3 兼容存储 |
 | 📝 | **客户 CMS 门户** | 可选的配套后台，让你的客户自己改站点内容，不用碰代码 |
 
-每次 push 自动部署已经上线：只需连接一次 GitHub App，之后每次 `git push` 都会自动构建并上线 —— 就是你在上面看到的「push webhook」触发方式。
+每次 push 自动部署已经上线：只要连接了 webhook，向 GitHub、GitLab、Gitea 或 Bitbucket 的 `git push` 就会自动构建并上线 —— 就是你在上面看到的「push webhook」触发方式。
 
 ---
 
@@ -355,6 +355,9 @@ Freim Deploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 | [添加服务器](docs/servers.md) | 一个面板管理多台服务器，bootstrap 做了什么 |
 | [日常运维](docs/operations.md) | 更新、回滚、站点挂了怎么办、备份、密钥 |
 | [客户 CMS 门户](docs/cms-portal.md) | 可选门户，让客户自己编辑内容 |
+
+想要一个可以直接浏览的页面？同样的索引，加上 Freim Deploy 与 FreimSite 如何配合的说明，也发布在
+[artfrost1.github.io/FreimDeploy](https://artfrost1.github.io/FreimDeploy/)。
 
 ---
 
