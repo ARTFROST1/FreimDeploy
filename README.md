@@ -191,6 +191,12 @@ own, and a release that only goes live after the healthcheck passes.
 
 <img src="assets/screens/03-deploy.jpg" alt="Deploy pipeline with live stages" width="900">
 
+**Every deploy is kept** — commit, status, duration and what triggered it: a manual click, a push
+webhook or the CLI. A failed one stays in the list, and any successful one is a click away from being
+rolled back to.
+
+<img src="assets/screens/05-deploys.jpg" alt="Deploy history: commit, status, duration and trigger" width="900">
+
 **The client CMS portal** — your client opens their own site, clicks a heading, edits it and presses
 Publish. The change is committed to Git and redeployed.
 

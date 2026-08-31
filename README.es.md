@@ -196,6 +196,12 @@ separado, y una versión que solo entra en producción si pasa la comprobación.
 
 <img src="assets/screens/03-deploy.jpg" alt="Pipeline de despliegue con etapas en vivo" width="900">
 
+**Cada despliegue se conserva** — commit, estado, duración y qué lo lanzó: un clic manual, un
+webhook de push o la CLI. Uno fallido permanece en la lista, y a cualquiera exitoso se vuelve con un
+solo clic.
+
+<img src="assets/screens/05-deploys.jpg" alt="Historial de despliegues: commit, estado, duración y disparador" width="900">
+
 **El portal CMS del cliente** — el cliente abre su propio sitio, hace clic en un titular, lo edita y
 pulsa Publicar. El cambio se commitea a Git y se vuelve a desplegar.
 

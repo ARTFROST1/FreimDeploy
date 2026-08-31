@@ -171,6 +171,10 @@ ssh -L 9000:127.0.0.1:9000 root@<服务器 IP>
 
 <img src="assets/screens/03-deploy.jpg" alt="带实时阶段的部署流水线" width="900">
 
+**每次部署都会保留** —— 提交、状态、耗时，以及它由什么触发：手动点击、push webhook 还是 CLI。失败的部署会留在列表里，任何一次成功的部署都可以一键回滚。
+
+<img src="assets/screens/05-deploys.jpg" alt="部署历史：提交、状态、耗时与触发方式" width="900">
+
 **客户 CMS 门户** —— 客户打开自己的站点，点击标题直接编辑，然后点「发布」。改动会提交到 Git 并自动重新部署。
 
 <img src="assets/screens/04-portal.jpg" alt="客户 CMS 门户：在线站点上点击即可编辑" width="900">
