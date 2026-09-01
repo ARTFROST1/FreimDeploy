@@ -2,7 +2,7 @@
 
 This is the path from a freshly installed panel to a live site on HTTPS. It assumes you have already
 run the installer and finished the setup wizard — if not, start with the
-[quick start](../README.md#-quick-start).
+[quick start](../README.md#quick-start).
 
 ## 1. Prepare the repository
 

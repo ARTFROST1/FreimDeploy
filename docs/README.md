@@ -19,7 +19,7 @@ Everything you need to run Freim Deploy without access to its source code.
 New here? Read [first-deploy.md](first-deploy.md), then keep
 [frostdeploy-json.md](frostdeploy-json.md) open while you write your first config.
 
-Installing? The [quick start](../README.md#-quick-start) is in the main README, and
+Installing? The [quick start](../README.md#quick-start) is in the main README, and
 [AGENTS.md](../AGENTS.md) is a step-by-step runbook an AI agent can follow to do the whole setup with
 you.
 

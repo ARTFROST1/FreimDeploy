@@ -43,7 +43,7 @@ Conecta un repositorio Git y pulsa Deploy: build, HTTPS, dominios y rollback ya 
 
 ---
 
-## 🔷 Instalación
+## Instalación
 
 Un solo comando en un servidor limpio con Debian 12+ / Ubuntu 22.04+, como `root`:
 
@@ -55,12 +55,12 @@ curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.
   <img src="assets/screens/01-dashboard.jpg" alt="Panel de Freim Deploy — todos los sitios en una pantalla" width="900">
 </p>
 
-Después sigue la **[Guía rápida](#-guía-rápida)**: cinco pasos, unos diez minutos, desde un servidor
+Después sigue la **[Guía rápida](#guía-rápida)**: cinco pasos, unos diez minutos, desde un servidor
 vacío hasta tu primer sitio en línea con HTTPS.
 
 ---
 
-## 🔹 O deja que lo haga tu agente de IA
+## O deja que lo haga tu agente de IA
 
 ¿Nunca has tocado un servidor? Delega todo el proceso en Claude Code, Cursor, Codex o cualquier
 agente de programación: este repositorio está escrito para que ellos lo entiendan.
@@ -93,7 +93,7 @@ máquina están en **[AGENTS.md](AGENTS.md)**.
 
 ---
 
-## 🔷 Qué obtienes
+## Qué obtienes
 
 Una plataforma de despliegue que se comporta como Vercel o Netlify, pero donde el servidor, los
 dominios, los datos y la factura son tuyos.
@@ -113,7 +113,7 @@ factura mensual de SaaS.
 
 ---
 
-## 🔷 Empieza desde una plantilla
+## Empieza desde una plantilla
 
 **[FreimSite](https://github.com/ARTFROST1/FreimSite)** es la plantilla oficial de sitio para
 Freim Deploy: un starter de Astro 7 con SEO, islands y cero JavaScript por defecto. Cada bloque
@@ -125,7 +125,7 @@ Freim Deploy.
 
 ---
 
-## 🔷 Guía rápida
+## Guía rápida
 
 ### Paso 1 — Consigue un servidor
 
@@ -197,7 +197,7 @@ repositorio y pulsar Deploy.
 
 ---
 
-## 🔹 Por dentro
+## Por dentro
 
 **La página de un proyecto** — una pantalla por sitio: su dominio y su certificado, sus servicios y
 todo el historial de despliegues, fallos incluidos.
@@ -222,22 +222,22 @@ pulsa Publicar. El cambio se commitea a Git y se vuelve a desplegar.
 
 ---
 
-## 🔹 Funciones
+## Funciones
 
-|  | Función | Qué significa para ti |
-| :-: | --- | --- |
-| 🔹 | **Detección automática del framework** | Next.js, Astro, Nuxt, SvelteKit, Remix, Python o HTML estático: se reconocen solos, sin configuración |
-| 🔹 | **Despliegue con un clic** | Eliges repositorio y rama y pulsas Deploy. Las builds se cachean, así que repetir es rápido |
-| 🔹 | **Logs de build en vivo** | Ves cada paso en el panel y puedes cancelar una build a mitad |
-| 🔹 | **Rollback instantáneo** | Un clic para volver a cualquier versión anterior |
-| 🔹 | **Dominios y HTTPS gratis** | Dominios propios y subdominios automáticos, con certificados emitidos y renovados por ti |
-| 🔹 | **Secretos cifrados** | Variables de entorno y tokens guardados cifrados; al cambiarlos se relanza la build |
-| 🔹 | **Sitios aislados** | Cada sitio corre con su propio usuario del sistema: un proyecto no puede leer a otro |
-| 🔹 | **Varios servidores** | Un panel, muchos servidores: cada cliente en su máquina si hace falta |
-| 🔹 | **Monitorización** | CPU, RAM y disco en tiempo real, además del estado de cada sitio |
-| 🔹 | **Control de acceso serio** | Autenticación en dos pasos, certificados de cliente opcionales, actualizaciones firmadas y verificadas |
-| 🔹 | **Copias de seguridad** | Programadas, en local o en cualquier almacenamiento compatible con S3 |
-| 🔹 | **Portal CMS para clientes** | Aplicación opcional donde tus clientes editan el contenido de su sitio sin tocar código |
+| Función | Qué significa para ti |
+| --- | --- |
+| **Detección automática del framework** | Next.js, Astro, Nuxt, SvelteKit, Remix, Python o HTML estático: se reconocen solos, sin configuración |
+| **Despliegue con un clic** | Eliges repositorio y rama y pulsas Deploy. Las builds se cachean, así que repetir es rápido |
+| **Logs de build en vivo** | Ves cada paso en el panel y puedes cancelar una build a mitad |
+| **Rollback instantáneo** | Un clic para volver a cualquier versión anterior |
+| **Dominios y HTTPS gratis** | Dominios propios y subdominios automáticos, con certificados emitidos y renovados por ti |
+| **Secretos cifrados** | Variables de entorno y tokens guardados cifrados; al cambiarlos se relanza la build |
+| **Sitios aislados** | Cada sitio corre con su propio usuario del sistema: un proyecto no puede leer a otro |
+| **Varios servidores** | Un panel, muchos servidores: cada cliente en su máquina si hace falta |
+| **Monitorización** | CPU, RAM y disco en tiempo real, además del estado de cada sitio |
+| **Control de acceso serio** | Autenticación en dos pasos, certificados de cliente opcionales, actualizaciones firmadas y verificadas |
+| **Copias de seguridad** | Programadas, en local o en cualquier almacenamiento compatible con S3 |
+| **Portal CMS para clientes** | Aplicación opcional donde tus clientes editan el contenido de su sitio sin tocar código |
 
 El despliegue automático en cada push ya funciona hoy: en cuanto conectas un webhook, un `git
 push` a GitHub, GitLab, Gitea o Bitbucket construye y publica el sitio solo — el mismo disparador
@@ -245,7 +245,7 @@ push` a GitHub, GitLab, Gitea o Bitbucket construye y publica el sitio solo — 
 
 ---
 
-## 🔹 Cómo funciona
+## Cómo funciona
 
 ```mermaid
 flowchart LR
@@ -268,7 +268,7 @@ flowchart LR
 
 ---
 
-## 🔹 Línea de comandos
+## Línea de comandos
 
 Todo se hace desde el panel. Estos comandos existen para el momento puntual en el que necesitas el
 servidor:
@@ -285,7 +285,7 @@ servidor:
 
 ---
 
-## 🔸 Solución de problemas
+## Solución de problemas
 
 <details>
 <summary><b>El navegador no abre <code>http://127.0.0.1:9000</code></b></summary>
@@ -331,7 +331,7 @@ token de GitHub no puede leer. Mientras tanto, la versión desplegada anteriorme
 
 ---
 
-## 🔸 Preguntas frecuentes
+## Preguntas frecuentes
 
 <details>
 <summary><b>¿En qué se diferencia de Vercel, Netlify o Render?</b></summary>
@@ -346,7 +346,7 @@ usuario y sin un tercero al mando de tu producción. Pagas el servidor y nada m�
 <summary><b>¿Hace falta saber Linux?</b></summary>
 
 Para instalar hay que copiar y pegar dos comandos. Todo lo demás ocurre en el panel web. Y si
-incluso eso te sobra, pásale el [prompt para el agente](#-o-deja-que-lo-haga-tu-agente-de-ia) a
+incluso eso te sobra, pásale el [prompt para el agente](#o-deja-que-lo-haga-tu-agente-de-ia) a
 cualquier asistente de IA y hará la configuración contigo.
 
 </details>
@@ -393,7 +393,7 @@ instalarse.
 
 ---
 
-## 🔹 Documentación
+## Documentación
 
 Todo lo necesario para usar Freim Deploy sin acceso a su código fuente está en
 **[docs/](docs/)** (en inglés):
@@ -413,7 +413,7 @@ El mismo índice como página, con una explicación de cómo encajan Freim Deplo
 
 ---
 
-## 🔹 Por dentro
+## Por dentro
 
 Para los curiosos: Node.js 22, SQLite, [Caddy](https://caddyserver.com) para el HTTPS automático y
 systemd para los procesos. Sin contenedores, sin orquestador y sin demonios en segundo plano
@@ -421,7 +421,7 @@ reportando a nadie, que es exactamente por lo que funciona bien en el VPS más b
 
 ---
 
-## 🔹 Licencia
+## Licencia
 
 Propietaria — ver [LICENSE](LICENSE). El instalador es público para que pueda leerse antes de
 ejecutarlo; el código fuente de la aplicación no se distribuye.
@@ -429,7 +429,7 @@ ejecutarlo; el código fuente de la aplicación no se distribuye.
 <div align="center">
 <br>
 
-**[🔷 Instalar ahora](#-instalación)** · [Releases](https://github.com/ARTFROST1/FreimDeploy/releases) · [Instrucciones para agentes](AGENTS.md) · [Hacer una pregunta](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
+**[Instalar ahora](#instalación)** · [Releases](https://github.com/ARTFROST1/FreimDeploy/releases) · [Instrucciones para agentes](AGENTS.md) · [Hacer una pregunta](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
 
 [English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
