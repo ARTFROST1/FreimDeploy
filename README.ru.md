@@ -20,6 +20,7 @@
   <a href="https://github.com/ARTFROST1/FreimDeploy/releases"><img alt="Загрузки" src="https://img.shields.io/github/downloads/ARTFROST1/FreimDeploy/total?style=for-the-badge&label=downloads&color=22c55e"></a>
   <img alt="Время установки" src="https://img.shields.io/badge/установка-~10_минут-6366f1?style=for-the-badge">
   <a href="LICENSE"><img alt="Лицензия" src="https://img.shields.io/badge/license-proprietary-64748b?style=for-the-badge"></a>
+  <a href="https://github.com/ARTFROST1/FreimSite"><img alt="Шаблон сайта: FreimSite" src="https://img.shields.io/badge/site_template-FreimSite-111316?style=for-the-badge"></a>
 </p>
 
 <p>
