@@ -41,7 +41,7 @@
 
 ---
 
-## ⚡ 安装
+## 🔷 安装
 
 在全新的 Debian 12+ / Ubuntu 22.04+ 服务器上，以 `root` 执行一条命令：
 
@@ -57,7 +57,7 @@ curl -fsSL https://raw.githubusercontent.com/ARTFROST1/FreimDeploy/main/install.
 
 ---
 
-## 🤖 或者交给 AI 代理
+## 🔹 或者交给 AI 代理
 
 从没碰过服务器？把整件事交给 Claude Code、Cursor、Codex 或任何编程代理 —— 这个仓库就是按照"让代理能读懂"来写的。
 
@@ -86,7 +86,7 @@ https://github.com/ARTFROST1/FreimDeploy
 
 ---
 
-## 🧊 你会得到什么
+## 🔷 你会得到什么
 
 一个用起来像 Vercel、Netlify 的部署平台 —— 只不过服务器、域名、数据和账单都归你。
 
@@ -101,7 +101,7 @@ https://github.com/ARTFROST1/FreimDeploy
 
 ---
 
-## 📦 从模板开始
+## 🔷 从模板开始
 
 **[FreimSite](https://github.com/ARTFROST1/FreimSite)** 是 Freim Deploy 的官方站点模板 ——
 一个基于 Astro 7 的启动模板，自带 SEO、islands 架构，默认零 JavaScript。页面上每个可编辑的
@@ -111,7 +111,7 @@ https://github.com/ARTFROST1/FreimDeploy
 
 ---
 
-## 🚀 快速开始
+## 🔷 快速开始
 
 ### 第 1 步 —— 准备服务器
 
@@ -172,7 +172,7 @@ ssh -L 9000:127.0.0.1:9000 root@<服务器 IP>
 
 ---
 
-## 👀 界面一览
+## 🔹 界面一览
 
 **项目页面** —— 一个站点一个屏幕：域名与证书、服务列表，以及完整的部署历史（包括失败的那次）。
 
@@ -192,28 +192,28 @@ ssh -L 9000:127.0.0.1:9000 root@<服务器 IP>
 
 ---
 
-## ✨ 功能
+## 🔹 功能
 
 |  | 功能 | 对你意味着什么 |
 | :-: | --- | --- |
-| 🔍 | **框架自动识别** | Next.js、Astro、Nuxt、SvelteKit、Remix、Python、纯静态 —— 自动识别，无需写配置 |
-| 🚀 | **一键部署** | 选好仓库和分支，点击 Deploy。构建有缓存，重复部署很快 |
-| 📡 | **实时构建日志** | 在面板里看到每一步，构建中途可随时取消 |
-| 🔄 | **秒级回滚** | 一次点击回到任意历史版本 |
-| 🌐 | **域名与免费 HTTPS** | 自定义域名和自动子域名，证书自动签发和续期 |
-| 🔐 | **密钥加密存储** | 环境变量和令牌加密保存，修改后自动触发重新构建 |
-| 👥 | **站点相互隔离** | 每个站点以独立系统用户运行 —— 项目之间互相读不到 |
-| 🖥 | **多服务器管理** | 一个面板管理多台服务器：不同客户可以放在不同机器上 |
-| 📊 | **监控** | CPU、内存、磁盘实时可见，还有每个站点的状态 |
-| 🔒 | **认真的访问控制** | 双因素认证、可选客户端证书、更新包签名校验 |
-| 💾 | **备份** | 定时备份到本地或任意 S3 兼容存储 |
-| 📝 | **客户 CMS 门户** | 可选的配套后台，让你的客户自己改站点内容，不用碰代码 |
+| 🔹 | **框架自动识别** | Next.js、Astro、Nuxt、SvelteKit、Remix、Python、纯静态 —— 自动识别，无需写配置 |
+| 🔹 | **一键部署** | 选好仓库和分支，点击 Deploy。构建有缓存，重复部署很快 |
+| 🔹 | **实时构建日志** | 在面板里看到每一步，构建中途可随时取消 |
+| 🔹 | **秒级回滚** | 一次点击回到任意历史版本 |
+| 🔹 | **域名与免费 HTTPS** | 自定义域名和自动子域名，证书自动签发和续期 |
+| 🔹 | **密钥加密存储** | 环境变量和令牌加密保存，修改后自动触发重新构建 |
+| 🔹 | **站点相互隔离** | 每个站点以独立系统用户运行 —— 项目之间互相读不到 |
+| 🔹 | **多服务器管理** | 一个面板管理多台服务器：不同客户可以放在不同机器上 |
+| 🔹 | **监控** | CPU、内存、磁盘实时可见，还有每个站点的状态 |
+| 🔹 | **认真的访问控制** | 双因素认证、可选客户端证书、更新包签名校验 |
+| 🔹 | **备份** | 定时备份到本地或任意 S3 兼容存储 |
+| 🔹 | **客户 CMS 门户** | 可选的配套后台，让你的客户自己改站点内容，不用碰代码 |
 
 每次 push 自动部署已经上线：只要连接了 webhook，向 GitHub、GitLab、Gitea 或 Bitbucket 的 `git push` 就会自动构建并上线 —— 就是你在上面看到的「push webhook」触发方式。
 
 ---
 
-## 🛠 工作原理
+## 🔹 工作原理
 
 ```mermaid
 flowchart LR
@@ -235,7 +235,7 @@ flowchart LR
 
 ---
 
-## ⌨️ 命令行
+## 🔹 命令行
 
 日常操作都在面板里完成。下面这些命令是给少数需要登录服务器的场景准备的：
 
@@ -251,7 +251,7 @@ flowchart LR
 
 ---
 
-## 🧯 故障排查
+## 🔸 故障排查
 
 <details>
 <summary><b>浏览器打不开 <code>http://127.0.0.1:9000</code></b></summary>
@@ -290,7 +290,7 @@ Freim Deploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 
 ---
 
-## ❓ 常见问题
+## 🔸 常见问题
 
 <details>
 <summary><b>它和 Vercel、Netlify、Render 有什么不同？</b></summary>
@@ -343,7 +343,7 @@ Freim Deploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 
 ---
 
-## 📚 文档
+## 🔹 文档
 
 在没有源代码的情况下运行 Freim Deploy 所需的一切，都在 **[docs/](docs/)**（英文）：
 
@@ -362,20 +362,20 @@ Freim Deploy 需要 `x86_64` 架构的 Debian 12+ 或 Ubuntu 22.04+。AlmaLinux�
 
 ---
 
-## 🧱 技术栈
+## 🔹 技术栈
 
 给好奇的人：Node.js 22、SQLite、[Caddy](https://caddyserver.com)（自动 HTTPS）、systemd（进程管理）。没有容器，没有编排系统，没有偷偷回传数据的后台守护进程 —— 所以它能在最便宜的 VPS 上安稳运行。
 
 ---
 
-## 📄 许可证
+## 🔹 许可证
 
 专有软件 —— 见 [LICENSE](LICENSE)。安装脚本公开是为了让你在执行前能先读一遍；应用源码不对外分发。
 
 <div align="center">
 <br>
 
-**[⚡ 立即安装](#-安装)** · [版本发布](https://github.com/ARTFROST1/FreimDeploy/releases) · [代理说明](AGENTS.md) · [提问](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
+**[🔷 立即安装](#-安装)** · [版本发布](https://github.com/ARTFROST1/FreimDeploy/releases) · [代理说明](AGENTS.md) · [提问](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
 
 [English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 

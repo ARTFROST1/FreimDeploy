@@ -42,7 +42,7 @@ Connect a Git repo, press Deploy: build, HTTPS, domain and rollback are handled 
 
 ---
 
-## ⚡ Install
+## 🔷 Install
 
 One command on a fresh Debian 12+ / Ubuntu 22.04+ server, as `root`:
 
@@ -59,7 +59,7 @@ to your first site live on HTTPS.
 
 ---
 
-## 🤖 Or let your AI agent do it
+## 🔹 Or let your AI agent do it
 
 Never touched a server? Hand the whole thing to Claude Code, Cursor, Codex or any coding agent —
 this repository is written to be read by them.
@@ -91,7 +91,7 @@ wizard and hand you a working panel. Machine-readable instructions live in
 
 ---
 
-## 🧊 What you get
+## 🔷 What you get
 
 A deploy platform that behaves like Vercel or Netlify — but the server, the domains, the data and
 the bill are yours.
@@ -109,7 +109,7 @@ tier, and for anyone who wants a self-hosted PaaS instead of a monthly SaaS invo
 
 ---
 
-## 📦 Start from a template
+## 🔷 Start from a template
 
 **[FreimSite](https://github.com/ARTFROST1/FreimSite)** is the official site template for Freim
 Deploy — an Astro 7 starter with SEO, islands and zero JavaScript by default. Every editable
@@ -120,7 +120,7 @@ point it at your Freim Deploy panel.
 
 ---
 
-## 🚀 Quick start
+## 🔷 Quick start
 
 ### Step 1 — Get a server
 
@@ -191,7 +191,7 @@ press Deploy.
 
 ---
 
-## 👀 Look inside
+## 🔹 Look inside
 
 **A project page** — one screen for a site: its domain and certificate, its services, and the whole
 deploy history, failures included.
@@ -216,22 +216,22 @@ Publish. The change is committed to Git and redeployed.
 
 ---
 
-## ✨ Features
+## 🔹 Features
 
 |  | Feature | What it means for you |
 | :-: | --- | --- |
-| 🔍 | **Framework autodetection** | Next.js, Astro, Nuxt, SvelteKit, Remix, Python, plain static — recognized automatically, no config to write |
-| 🚀 | **One-click deploy** | Pick a repo and a branch, press Deploy. Builds are cached, so repeat deploys are fast |
-| 📡 | **Live build logs** | Watch every step in the dashboard, cancel a build mid-run |
-| 🔄 | **Instant rollback** | One click back to any previous version |
-| 🌐 | **Domains & free HTTPS** | Custom domains and automatic subdomains, certificates issued and renewed for you |
-| 🔐 | **Encrypted secrets** | Environment variables and tokens stored encrypted, changes trigger a rebuild |
-| 👥 | **Isolated sites** | Every site runs under its own system user — one project cannot read another |
-| 🖥 | **Multiple servers** | One panel, many servers: keep clients on separate machines |
-| 📊 | **Monitoring** | CPU, RAM and disk in real time, plus per-site status |
-| 🔒 | **Serious access control** | Two-factor authentication, optional client certificates, signed and verified updates |
-| 💾 | **Backups** | Scheduled backups, locally or to any S3-compatible storage |
-| 📝 | **Client CMS portal** | Optional companion app where your clients edit their own site content without touching code |
+| 🔹 | **Framework autodetection** | Next.js, Astro, Nuxt, SvelteKit, Remix, Python, plain static — recognized automatically, no config to write |
+| 🔹 | **One-click deploy** | Pick a repo and a branch, press Deploy. Builds are cached, so repeat deploys are fast |
+| 🔹 | **Live build logs** | Watch every step in the dashboard, cancel a build mid-run |
+| 🔹 | **Instant rollback** | One click back to any previous version |
+| 🔹 | **Domains & free HTTPS** | Custom domains and automatic subdomains, certificates issued and renewed for you |
+| 🔹 | **Encrypted secrets** | Environment variables and tokens stored encrypted, changes trigger a rebuild |
+| 🔹 | **Isolated sites** | Every site runs under its own system user — one project cannot read another |
+| 🔹 | **Multiple servers** | One panel, many servers: keep clients on separate machines |
+| 🔹 | **Monitoring** | CPU, RAM and disk in real time, plus per-site status |
+| 🔹 | **Serious access control** | Two-factor authentication, optional client certificates, signed and verified updates |
+| 🔹 | **Backups** | Scheduled backups, locally or to any S3-compatible storage |
+| 🔹 | **Client CMS portal** | Optional companion app where your clients edit their own site content without touching code |
 
 Push-to-deploy already ships: once a webhook is connected, a `git push` to GitHub, GitLab, Gitea
 or Bitbucket builds and ships the site automatically — the same “push webhook” trigger you saw
@@ -239,7 +239,7 @@ above.
 
 ---
 
-## 🛠 How it works
+## 🔹 How it works
 
 ```mermaid
 flowchart LR
@@ -262,7 +262,7 @@ flowchart LR
 
 ---
 
-## ⌨️ Command line
+## 🔹 Command line
 
 Everything is done from the panel UI. These commands exist for the rare moment you need the server
 itself:
@@ -279,7 +279,7 @@ itself:
 
 ---
 
-## 🧯 Troubleshooting
+## 🔸 Troubleshooting
 
 <details>
 <summary><b>The browser will not open <code>http://127.0.0.1:9000</code></b></summary>
@@ -325,7 +325,7 @@ GitHub token cannot read. The previously deployed version keeps running the whol
 
 ---
 
-## ❓ FAQ
+## 🔸 FAQ
 
 <details>
 <summary><b>How is this different from Vercel, Netlify or Render?</b></summary>
@@ -385,7 +385,7 @@ is private. Updates are signed and verified automatically before they are instal
 
 ---
 
-## 📚 Documentation
+## 🔹 Documentation
 
 Everything needed to run Freim Deploy without access to its source code lives in
 **[docs/](docs/)**:
@@ -405,7 +405,7 @@ also published at [artfrost1.github.io/FreimDeploy](https://artfrost1.github.io/
 
 ---
 
-## 🧱 Under the hood
+## 🔹 Under the hood
 
 For the curious: Node.js 22, SQLite, [Caddy](https://caddyserver.com) for automatic HTTPS, and
 systemd for processes. No containers, no orchestrator, no background daemons phoning home — which
@@ -413,7 +413,7 @@ is exactly why it runs happily on the cheapest VPS you can rent.
 
 ---
 
-## 📄 License
+## 🔹 License
 
 Proprietary — see [LICENSE](LICENSE). The installer is public so it can be read before it runs; the
 application source code is not distributed.
@@ -421,7 +421,7 @@ application source code is not distributed.
 <div align="center">
 <br>
 
-**[⚡ Install now](#-install)** · [Releases](https://github.com/ARTFROST1/FreimDeploy/releases) · [Agent instructions](AGENTS.md) · [Ask a question](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
+**[🔷 Install now](#-install)** · [Releases](https://github.com/ARTFROST1/FreimDeploy/releases) · [Agent instructions](AGENTS.md) · [Ask a question](https://github.com/ARTFROST1/FreimDeploy/issues/new/choose)
 
 [English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
