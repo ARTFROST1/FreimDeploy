@@ -43,6 +43,70 @@ FD_PORT=9000
 NODE_MAJOR=22
 CADDYFILE="/etc/caddy/Caddyfile"
 
+# ─── 0a. Режим: панель или подготовка управляемого сервера ──────────────────
+#
+# ЗАЧЕМ ЗДЕСЬ ВТОРОЙ РЕЖИМ (BKP-F27, живой прогон 2026-09-02).
+#
+# Панель при добавлении сервера выдавала владельцу однострочник, тянувший
+# `bootstrap-server.sh` из репозитория `artfrost` (полный адрес дословно не
+# приводится: он под запретом регресс-теста).
+# Такого репозитория нет — 404; приватный репозиторий исходников тоже 404, а в
+# дистрибутивный `bootstrap-server.sh` не публиковался вовсе. То есть
+# ЕДИНСТВЕННЫЙ путь подключения клиентского сервера не работал ни разу.
+#
+# Публиковать пять скриптов рядом с этим файлом было бы проще, но хуже:
+# `curl | bash` от root по неподписанным файлам — ровно та поверхность, ради
+# которой существует подпись тарбола, а третья копия публичного ключа
+# гарантированно разъедется с двумя имеющимися (инвариант 4 в
+# docs/map/release-dist.md). И это всё равно не решило бы главного: `restic` и
+# `sqlite3` — вендоренные бинари, их с raw.githubusercontent не принести.
+#
+# Поэтому режим, а не новый файл: тот же подписанный тарбол, та же проверка,
+# тот же вшитый ключ — а `bootstrap-server.sh` запускается ИЗ РАСПАКОВАННОГО
+# дерева, где рядом лежат и хелперы, и вендоренные бинари.
+MODE="panel"
+SRV_USER=""
+SRV_PUBKEY=""
+SRV_DRY_RUN=false
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --server) MODE="server"; shift ;;
+    # Пробрасывается в bootstrap-server.sh. Не «на всякий случай»: сам
+    # bootstrap отключает вход по паролю SSH, и его предупреждение прямо
+    # советует сперва прочитать отчёт. Без проброса этот совет стал бы
+    # невыполнимым — файла у владельца на руках нет.
+    --dry-run) SRV_DRY_RUN=true; shift ;;
+    # `shift 2` при отсутствующем значении возвращает ненулевой код и под
+    # `set -e` роняет скрипт БЕЗ единого слова. Поэтому значение проверяется
+    # до сдвига: пропущенный ключ обязан объяснить себя, а не исчезнуть.
+    --user)
+      [[ $# -ge 2 ]] || log_err "--user требует значение"
+      SRV_USER="$2"
+      shift 2
+      ;;
+    --pubkey)
+      [[ $# -ge 2 ]] || log_err "--pubkey требует значение"
+      SRV_PUBKEY="$2"
+      shift 2
+      ;;
+    -h | --help)
+      cat <<'USAGE'
+install.sh                — установить панель Freim Deploy на этот хост
+install.sh --server --user <unix-юзер> --pubkey '<ssh-ed25519 …>'
+                          — подготовить хост как УПРАВЛЯЕМЫЙ сервер панели
+install.sh --server … --dry-run
+                          — показать, что сделает подготовка, и НЕ делать
+USAGE
+      exit 0
+      ;;
+    *) log_err "неизвестный аргумент '$1' (см. --help)" ;;
+  esac
+done
+if [[ "${MODE}" == "server" ]]; then
+  [[ -n "${SRV_USER}" ]] || log_err "--server требует --user"
+  [[ -n "${SRV_PUBKEY}" ]] || log_err "--server требует --pubkey"
+fi
+
 # ─── 0. Token ────────────────────────────────────────────────────────────────
 # FD_DIST_TOKEN: optional read-only fine-grained PAT for the dist repo. Only
 # needed when the dist repo is private (e.g. a studio's internal server).
@@ -121,6 +185,115 @@ if [[ "${SUPPORTED}" != "true" ]]; then
   log_err "Unsupported OS: ${PRETTY_NAME}. Freim Deploy requires Ubuntu 22.04+ or Debian 12+"
 fi
 log_ok "OS: ${PRETTY_NAME}"
+
+# ─── Релизный артефакт: разрешение версии, подпись, распаковка ──────────────
+#
+# Один блок на оба режима. Раньше это лежало ниже, внутри шага 7, и было
+# доступно только установке панели; подготовка управляемого сервера ходила
+# мимо — за неподписанными файлами в несуществующий репозиторий (BKP-F27).
+#
+# AUTH заполняется только при FD_DIST_TOKEN; против публичного dist-репо
+# curl вызывается вообще без заголовка Authorization.
+AUTH=()
+[[ -n "${FD_DIST_TOKEN:-}" ]] && AUTH=(-H "Authorization: Bearer ${FD_DIST_TOKEN}")
+
+gh_api() { curl -fsSL "${AUTH[@]}" \
+  -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${DIST_REPO}$1"; }
+
+# ─── Подпись релиза (аудит C-5) ─────────────────────────────────────────────
+# Тарбол распаковывается КАК ROOT. Без проверки подписи тот, кто может записать
+# один release-asset, получает root на каждом сервере при следующем
+# install/update — и молча, потому что подменённый архив ничем не отличался от
+# настоящего.
+#
+# Публичный ключ. Не секрет: он существует, чтобы отличить наш артефакт от
+# чужого. Приватная половина живёт только в секретах CI (FD_SIGNING_KEY) и
+# отделена от DIST_PUSH_TOKEN — утёкший push-токен сам по себе больше не даёт
+# отравить серверы, валидную подпись им не сделать.
+#
+# KEEP IN SYNC: тот же ключ и та же функция продублированы в
+# scripts/dist/frostdeploy (путь `frostdeploy update`). Оба скрипта
+# распространяются отдельно, общий файл им подключить неоткуда. Третьей копии
+# нет и не должно быть — режим `--server` пользуется ЭТОЙ.
+read -r -d '' FD_RELEASE_PUBKEY <<'PUBKEY' || true
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAH7ZmEJxyrsoTPoWG+4wLKkf6nwGiwoZWomiJcdY6jOo=
+-----END PUBLIC KEY-----
+PUBKEY
+
+# verify_release <tarball> <sig> — падает, если подпись не сходится.
+verify_release() {
+  local tgz="$1" sig="$2" pub
+  command -v openssl >/dev/null 2>&1 || log_err "openssl не найден — проверить подпись релиза нечем"
+  [[ -s "${sig}" ]] || log_err "у релиза нет файла подписи (.sig) — установка ОСТАНОВЛЕНА"
+  pub="$(mktemp)"
+  printf '%s\n' "${FD_RELEASE_PUBKEY}" > "${pub}"
+  if ! openssl pkeyutl -verify -rawin -pubin -inkey "${pub}" -sigfile "${sig}" -in "${tgz}" >/dev/null 2>&1; then
+    rm -f "${pub}"
+    log_err "ПОДПИСЬ РЕЛИЗА НЕ СХОДИТСЯ. Архив подменён или собран не нами — установка ОСТАНОВЛЕНА."
+  fi
+  rm -f "${pub}"
+  log_ok "подпись релиза проверена (ed25519)"
+}
+
+# Ставит TAG / VERSION / ASSET_ID / LATEST_JSON по последнему релизу.
+resolve_release() {
+  LATEST_JSON="$(gh_api /releases/latest)" \
+    || log_err "Cannot reach ${DIST_REPO} releases (network? private repo needs FD_DIST_TOKEN?)"
+  TAG="$(echo "${LATEST_JSON}" | jq -r .tag_name)"
+  VERSION="${TAG#v}"
+  # Tag-derived; goes into filesystem paths (incl. rm -rf) — refuse anything
+  # that could traverse (../) or start with a dot/dash.
+  [[ "${VERSION}" =~ ^[0-9A-Za-z][0-9A-Za-z._-]*$ ]] \
+    || log_err "refusing suspicious version '${VERSION}'"
+  ASSET_ID="$(echo "${LATEST_JSON}" | jq -r '.assets[] | select(.name|endswith("linux-x64.tar.gz")) | .id')"
+  [[ -n "${ASSET_ID}" && "${ASSET_ID}" != "null" ]] || log_err "Release ${TAG} has no linux-x64 tarball"
+}
+
+# fetch_release <каталог> — качает, ПРОВЕРЯЕТ ПОДПИСЬ и распаковывает туда
+# дерево `frostdeploy-<VERSION>`. Требует уже вызванного resolve_release.
+fetch_release() {
+  local dest="$1" tmp_tgz tmp_sig sig_id
+  tmp_tgz="$(mktemp)"
+  tmp_sig="$(mktemp)"
+  curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
+    -o "${tmp_tgz}" "https://api.github.com/repos/${DIST_REPO}/releases/assets/${ASSET_ID}"
+  sig_id="$(echo "${LATEST_JSON}" | jq -r '.assets[] | select(.name|endswith(".tar.gz.sig")) | .id')"
+  if [[ -n "${sig_id}" && "${sig_id}" != "null" ]]; then
+    curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
+      -o "${tmp_sig}" "https://api.github.com/repos/${DIST_REPO}/releases/assets/${sig_id}"
+  fi
+  # ПРОВЕРКА ДО РАСПАКОВКИ: после tar злоумышленный код уже на диске, а
+  # prepare-host.sh / bootstrap-server.sh запускаются из этого самого дерева
+  # от root.
+  verify_release "${tmp_tgz}" "${tmp_sig}"
+  mkdir -p "${dest}"
+  # --no-same-owner/--no-same-permissions: архив не должен диктовать, кому будут
+  # принадлежать файлы и с какими правами (setuid в том числе).
+  tar -xzf "${tmp_tgz}" --no-same-owner --no-same-permissions -C "${dest}"
+  rm -f "${tmp_tgz}" "${tmp_sig}"
+}
+
+# ─── Режим --server: подготовка управляемого сервера и выход ────────────────
+if [[ "${MODE}" == "server" ]]; then
+  log_info "Режим подготовки управляемого сервера (панель здесь НЕ ставится)"
+  resolve_release
+  SRV_TMP="$(mktemp -d /tmp/fd-server-boot.XXXXXX)"
+  chmod 700 "${SRV_TMP}"
+  trap 'rm -rf "${SRV_TMP}"' EXIT
+  log_info "Скачиваю Freim Deploy ${VERSION}..."
+  fetch_release "${SRV_TMP}"
+  BOOT="${SRV_TMP}/frostdeploy-${VERSION}/scripts/bootstrap-server.sh"
+  [[ -f "${BOOT}" ]] || log_err "в релизе ${VERSION} нет scripts/bootstrap-server.sh"
+  log_ok "Релиз ${VERSION} распакован во временный каталог"
+  # Именно bash <файл>, а не `curl | bash`: рядом лежат harden-host.sh,
+  # валидирующие хелперы и вендоренные restic/sqlite3, поэтому bootstrap
+  # берёт их с диска и ничего никуда не тянет.
+  BOOT_ARGS=(--user "${SRV_USER}" --pubkey "${SRV_PUBKEY}")
+  [[ "${SRV_DRY_RUN}" == "true" ]] && BOOT_ARGS+=(--dry-run)
+  bash "${BOOT}" "${BOOT_ARGS[@]}"
+  exit 0
+fi
 
 # ─── 3. Check / install Node.js 20+ ─────────────────────────────────────────
 install_node() {
@@ -203,81 +376,16 @@ else
 fi
 
 # ─── 7. Download latest release (заменяет git clone) ────────────────────────
-# AUTH is only populated when FD_DIST_TOKEN is set; against a public dist repo
-# it stays empty and curl is called with no Authorization header at all.
-AUTH=()
-[[ -n "${FD_DIST_TOKEN:-}" ]] && AUTH=(-H "Authorization: Bearer ${FD_DIST_TOKEN}")
-
-gh_api() { curl -fsSL "${AUTH[@]}" \
-  -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${DIST_REPO}$1"; }
-
-LATEST_JSON="$(gh_api /releases/latest)" || log_err "Cannot reach ${DIST_REPO} releases (network? private repo needs FD_DIST_TOKEN?)"
-TAG="$(echo "${LATEST_JSON}" | jq -r .tag_name)"
-VERSION="${TAG#v}"
-# Tag-derived; goes into filesystem paths (incl. rm -rf) — refuse anything
-# that could traverse (../) or start with a dot/dash.
-[[ "${VERSION}" =~ ^[0-9A-Za-z][0-9A-Za-z._-]*$ ]] \
-  || log_err "refusing suspicious version '${VERSION}'"
-ASSET_ID="$(echo "${LATEST_JSON}" | jq -r '.assets[] | select(.name|endswith("linux-x64.tar.gz")) | .id')"
-[[ -n "${ASSET_ID}" && "${ASSET_ID}" != "null" ]] || log_err "Release ${TAG} has no linux-x64 tarball"
-
-# ─── Подпись релиза (аудит C-5) ─────────────────────────────────────────────
-# Тарбол распаковывается КАК ROOT. Без проверки подписи тот, кто может записать
-# один release-asset, получает root на каждом сервере при следующем
-# install/update — и молча, потому что подменённый архив ничем не отличался от
-# настоящего.
-#
-# Публичный ключ. Не секрет: он существует, чтобы отличить наш артефакт от
-# чужого. Приватная половина живёт только в секретах CI (FD_SIGNING_KEY) и
-# отделена от DIST_PUSH_TOKEN — утёкший push-токен сам по себе больше не даёт
-# отравить серверы, валидную подпись им не сделать.
-#
-# KEEP IN SYNC: тот же ключ и та же функция продублированы в
-# scripts/dist/frostdeploy (путь `frostdeploy update`). Оба скрипта
-# распространяются отдельно, общий файл им подключить неоткуда.
-read -r -d '' FD_RELEASE_PUBKEY <<'PUBKEY' || true
------BEGIN PUBLIC KEY-----
-MCowBQYDK2VwAyEAH7ZmEJxyrsoTPoWG+4wLKkf6nwGiwoZWomiJcdY6jOo=
------END PUBLIC KEY-----
-PUBKEY
-
-# verify_release <tarball> <sig> — падает, если подпись не сходится.
-verify_release() {
-  local tgz="$1" sig="$2" pub
-  command -v openssl >/dev/null 2>&1 || log_err "openssl не найден — проверить подпись релиза нечем"
-  [[ -s "${sig}" ]] || log_err "у релиза нет файла подписи (.sig) — установка ОСТАНОВЛЕНА"
-  pub="$(mktemp)"
-  printf '%s\n' "${FD_RELEASE_PUBKEY}" > "${pub}"
-  if ! openssl pkeyutl -verify -rawin -pubin -inkey "${pub}" -sigfile "${sig}" -in "${tgz}" >/dev/null 2>&1; then
-    rm -f "${pub}"
-    log_err "ПОДПИСЬ РЕЛИЗА НЕ СХОДИТСЯ. Архив подменён или собран не нами — установка ОСТАНОВЛЕНА."
-  fi
-  rm -f "${pub}"
-  log_ok "подпись релиза проверена (ed25519)"
-}
+# Разрешение версии, проверка подписи и распаковка вынесены выше (общее с
+# режимом --server) — здесь остаётся только раскладка по /opt.
+resolve_release
 
 if [[ -d "${RELEASES_DIR}/${VERSION}" ]]; then
   log_ok "Release ${VERSION} already present"
 else
   log_info "Downloading Freim Deploy ${VERSION}..."
-  TMP_TGZ="$(mktemp)"
-  TMP_SIG="$(mktemp)"
-  curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
-    -o "${TMP_TGZ}" "https://api.github.com/repos/${DIST_REPO}/releases/assets/${ASSET_ID}"
-  SIG_ID="$(echo "${LATEST_JSON}" | jq -r '.assets[] | select(.name|endswith(".tar.gz.sig")) | .id')"
-  if [[ -n "${SIG_ID}" && "${SIG_ID}" != "null" ]]; then
-    curl -fsSL "${AUTH[@]}" -H "Accept: application/octet-stream" \
-      -o "${TMP_SIG}" "https://api.github.com/repos/${DIST_REPO}/releases/assets/${SIG_ID}"
-  fi
-  # ПРОВЕРКА ДО РАСПАКОВКИ: после tar злоумышленный код уже на диске, а
-  # prepare-host.sh запускается из этого самого дерева от root.
-  verify_release "${TMP_TGZ}" "${TMP_SIG}"
-  mkdir -p "${RELEASES_DIR}"
-  # --no-same-owner/--no-same-permissions: архив не должен диктовать, кому будут
-  # принадлежать файлы и с какими правами (setuid в том числе).
-  tar -xzf "${TMP_TGZ}" --no-same-owner --no-same-permissions -C "${RELEASES_DIR}"
+  fetch_release "${RELEASES_DIR}"
   mv "${RELEASES_DIR}/frostdeploy-${VERSION}" "${RELEASES_DIR}/${VERSION}"
-  rm -f "${TMP_TGZ}" "${TMP_SIG}"
   log_ok "Release ${VERSION} unpacked"
 fi
 ln -sfn "${RELEASES_DIR}/${VERSION}" "${INSTALL_DIR}/current"
