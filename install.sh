@@ -329,10 +329,26 @@ fi
 # panel manages Caddy via the admin API (POST /load), which replaces the whole
 # config and would wipe the existing sites. On such a server the panel stays on
 # :${FD_PORT} and its own-domain auto-config is disabled (needs coexist mode).
+# Пакет `caddy` кладёт СВОЙ приветственный Caddyfile — он непустой, но ничьих
+# сайтов не обслуживает. Пока эвристика смотрела только на непустоту, любой
+# хост, где Caddy уже стоял, объявлялся чужим, и установщик отключал всю свою
+# настройку Caddy — включая членство в группе, без которого панель потом не
+# может настроить Caddy вообще (PLT-F12/F13, живой прогон 2026-09-03).
+#
+# dpkg знает, трогали conffile после установки или нет: изменённый попадает в
+# вывод `--verify`, нетронутый — нет. Если dpkg файлом не владеет вовсе (его
+# написали руками) — считаем чужим, это консервативная сторона.
+caddyfile_is_stock() {
+  dpkg -S "${CADDYFILE}" > /dev/null 2>&1 || return 1
+  ! dpkg --verify caddy 2>/dev/null | grep -q "${CADDYFILE}"
+}
+
 FOREIGN_CADDY=false
 if command -v caddy &> /dev/null; then
   log_ok "Caddy $(caddy version | head -1) detected"
-  if [[ -f "${CADDYFILE}" ]] && [[ "$(grep -cvE '^\s*(#|\{|\}|admin |$)' "${CADDYFILE}" 2>/dev/null)" -gt 0 ]]; then
+  if [[ -f "${CADDYFILE}" ]] \
+    && [[ "$(grep -cvE '^\s*(#|\{|\}|admin |$)' "${CADDYFILE}" 2>/dev/null)" -gt 0 ]] \
+    && ! caddyfile_is_stock; then
     FOREIGN_CADDY=true
     log_warn "На сервере уже есть непустой ${CADDYFILE} — Caddy обслуживает чужие сайты."
     log_warn "НЕ трогаю Caddy, чтобы их не сломать. Панель будет доступна на порту ${FD_PORT}."
@@ -371,7 +387,14 @@ fi
 if id "${FD_USER}" &> /dev/null; then
   log_ok "User '${FD_USER}' already exists"
 else
-  useradd --system --shell /usr/sbin/nologin --home-dir "${INSTALL_DIR}" "${FD_USER}"
+  # `useradd --system` сам заводит одноимённую группу и падает с exit 9, если
+  # она уже есть, — сырым сообщением от useradd и уже ПОСЛЕ установки Node и
+  # Caddy, то есть на середине (PLT-F14). Осиротевшая группа остаётся после
+  # любого ручного сноса: `userdel frostdeploy` не трогает группу, пока в ней
+  # числится `fd-backup`. Заводим группу отдельно и явно отдаём её юзеру.
+  groupadd --system -f "${FD_USER}"
+  useradd --system --gid "${FD_USER}" --shell /usr/sbin/nologin \
+    --home-dir "${INSTALL_DIR}" "${FD_USER}"
   log_ok "User '${FD_USER}' created"
 fi
 
@@ -466,6 +489,18 @@ log_ok "CLI installed: frostdeploy {status|logs|restart|update|rollback|reset-pa
 # The panel drives Caddy entirely through the admin API; --resume persists the
 # last loaded config across restarts, so no Caddyfile is needed. On a foreign
 # Caddy we skip ALL of this to avoid disturbing existing sites.
+# Панель ходит в admin API Caddy через unix-сокет 0660 с владельцем-группой
+# caddy, поэтому членство обязано быть ВСЕГДА — и в foreign-режиме тоже.
+# Пока оно жило внутри `else`-ветки ниже, панель на таком хосте запирала себя
+# от Caddy собственной первой записью: конфиг переводил admin API с открытого
+# TCP 2019 на сокет, открыть который она уже не могла, и каждый деплой падал
+# на шаге прокси с «HTTP 000» (PLT-F12). Членство ничего не ломает у чужого
+# Caddy — оно лишь даёт право открыть сокет, если тот появится.
+if getent group caddy > /dev/null 2>&1; then
+  usermod -aG caddy "${FD_USER}"
+  log_ok "${FD_USER} добавлен в группу caddy (доступ к admin-сокету)"
+fi
+
 if [[ "${FOREIGN_CADDY}" == "true" ]]; then
   log_warn "Пропускаю настройку Caddy (обслуживает чужие сайты). Панель — на :${FD_PORT}."
 else
@@ -483,11 +518,6 @@ RuntimeDirectoryMode=0755
 ExecReload=
 ExecReload=/bin/sh -c 'if [ -S /run/caddy/admin.sock ]; then A="--unix-socket /run/caddy/admin.sock http://localhost"; else A="http://localhost:2019"; fi; curl -sf $A/config/ | curl -sf -X POST -H "Content-Type: application/json" -H "Cache-Control: must-revalidate" --data-binary @- $A/load'
 EOF
-  # Панель ходит в admin API Caddy через unix-сокет 0660, владелец группы caddy.
-  # Без этого членства панель не сможет настраивать Caddy вообще.
-  if getent group caddy >/dev/null 2>&1; then
-    usermod -aG caddy "${FD_USER}"
-  fi
   systemctl daemon-reload
   systemctl enable caddy --quiet 2>/dev/null || true
   systemctl restart caddy
