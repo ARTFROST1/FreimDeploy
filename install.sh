@@ -41,6 +41,7 @@ SERVICE_NAME="frostdeploy"
 FD_USER="frostdeploy"
 FD_PORT=9000
 NODE_MAJOR=22
+NODE_MIN_VERSION=22.23.4
 CADDYFILE="/etc/caddy/Caddyfile"
 
 # ─── 0a. Режим: панель или подготовка управляемого сервера ──────────────────
@@ -385,7 +386,7 @@ if [[ "${MODE}" == "server" ]]; then
   exit 0
 fi
 
-# ─── 3. Check / install Node.js 20+ ─────────────────────────────────────────
+# ─── 3. Check / install Node.js 22 (security-patched) ───────────────────────
 install_node() {
   log_info "Installing Node.js ${NODE_MAJOR}.x via NodeSource..."
   apt-get update -qq
@@ -400,18 +401,24 @@ install_node() {
 }
 
 if command -v node &> /dev/null; then
-  NODE_VER=$(node -v | sed 's/v//' | cut -d. -f1)
-  if [[ "${NODE_VER}" -ge 20 ]]; then
+  NODE_VER="$(node -p 'process.versions.node')"
+  if dpkg --compare-versions "${NODE_VER}" ge "${NODE_MIN_VERSION}" \
+    && dpkg --compare-versions "${NODE_VER}" lt "$((NODE_MAJOR + 1)).0.0"; then
     log_ok "Node.js $(node -v) detected"
   else
-    log_warn "Node.js $(node -v) is too old (need 20+). Upgrading..."
+    log_warn "Node.js $(node -v) is unsupported (need ${NODE_MIN_VERSION}–22.x). Replacing..."
     install_node
-    log_ok "Node.js $(node -v) installed"
   fi
 else
   install_node
-  log_ok "Node.js $(node -v) installed"
 fi
+
+NODE_VER="$(node -p 'process.versions.node')"
+dpkg --compare-versions "${NODE_VER}" ge "${NODE_MIN_VERSION}" \
+  || log_err "Node.js ${NODE_MIN_VERSION}+ required, installed $(node -v)"
+dpkg --compare-versions "${NODE_VER}" lt "$((NODE_MAJOR + 1)).0.0" \
+  || log_err "Node.js ${NODE_MAJOR}.x required, installed $(node -v)"
+log_ok "Node.js $(node -v) installed"
 
 # ─── 4. Install / detect Caddy (coexist-aware) ──────────────────────────────
 # FOREIGN_CADDY=true means Caddy is already here serving someone else's sites
