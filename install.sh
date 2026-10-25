@@ -534,6 +534,10 @@ if [[ -f "${ENV_FILE}" ]]; then
     printf 'PANEL_TRUSTED_PROXIES=127.0.0.1\n' >> "${ENV_FILE}"
     log_ok "PANEL_TRUSTED_PROXIES=127.0.0.1 добавлен в .env (per-IP лимиты за Caddy)"
   fi
+  if ! grep -q '^PANEL_PROXY_SECRET=' "${ENV_FILE}"; then
+    printf 'PANEL_PROXY_SECRET=%s\n' "$(openssl rand -hex 32)" >> "${ENV_FILE}"
+    log_ok "PANEL_PROXY_SECRET добавлен в .env (аутентификация Caddy → панель)"
+  fi
 else
   ENCRYPTION_KEY=$(openssl rand -hex 32)
   SESSION_SECRET=$(openssl rand -hex 32)
@@ -557,6 +561,7 @@ FD_GUEST_BUILD_DIR=${GUEST_BUILD_DIR}
 PANEL_TRUSTED_PROXIES=127.0.0.1
 ENCRYPTION_KEY=${ENCRYPTION_KEY}
 SESSION_SECRET=${SESSION_SECRET}
+PANEL_PROXY_SECRET=$(openssl rand -hex 32)
 EOF
   if [[ -n "${FD_DIST_TOKEN:-}" ]]; then
     echo "FD_DIST_TOKEN=${FD_DIST_TOKEN}" >> "${ENV_FILE}"
