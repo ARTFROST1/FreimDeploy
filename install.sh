@@ -538,9 +538,14 @@ if [[ -f "${ENV_FILE}" ]]; then
     printf 'PANEL_PROXY_SECRET=%s\n' "$(openssl rand -hex 32)" >> "${ENV_FILE}"
     log_ok "PANEL_PROXY_SECRET добавлен в .env (аутентификация Caddy → панель)"
   fi
+  if ! grep -q '^SETUP_TOKEN=' "${ENV_FILE}"; then
+    printf 'SETUP_TOKEN=%s\n' "$(openssl rand -hex 32)" >> "${ENV_FILE}"
+    log_ok "SETUP_TOKEN добавлен в .env (одноразовая авторизация мастера)"
+  fi
 else
   ENCRYPTION_KEY=$(openssl rand -hex 32)
   SESSION_SECRET=$(openssl rand -hex 32)
+  SETUP_TOKEN=$(openssl rand -hex 32)
   # Create the file 600 BEFORE writing anything into it. `cat > file` followed by
   # `chmod 600` leaves a window in which the file exists at the default umask
   # (0644) with ENCRYPTION_KEY already inside — and that key decrypts every SSH
@@ -562,6 +567,7 @@ PANEL_TRUSTED_PROXIES=127.0.0.1
 ENCRYPTION_KEY=${ENCRYPTION_KEY}
 SESSION_SECRET=${SESSION_SECRET}
 PANEL_PROXY_SECRET=$(openssl rand -hex 32)
+SETUP_TOKEN=${SETUP_TOKEN}
 EOF
   if [[ -n "${FD_DIST_TOKEN:-}" ]]; then
     echo "FD_DIST_TOKEN=${FD_DIST_TOKEN}" >> "${ENV_FILE}"
@@ -679,6 +685,7 @@ echo ""
 echo -e "    Не закрывая его, открой в браузере ${BOLD}на своём компьютере${NC}:"
 echo -e "      ${CYAN}http://127.0.0.1:${FD_PORT}${NC}"
 echo -e "    Пройди Setup Wizard и создай админский аккаунт."
+echo -e "    Токен установки: ${CYAN}$(sed -n 's/^SETUP_TOKEN=//p' "${ENV_FILE}")${NC}"
 echo ""
 echo -e " ${BOLD}2) Дальше — только по своему домену через HTTPS:${NC}"
 echo -e "    в панели укажи домен (Settings → Domain), Caddy сам возьмёт"
